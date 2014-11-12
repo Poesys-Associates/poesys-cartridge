@@ -1,0 +1,61 @@
+<andromda>
+    <properties>
+        <property name="cartridgeFilter">meta,java</property>
+        <!-- <property name="loggingConfigurationUri">file:${basedir}/conf/log4j.xml</property> -->
+    </properties>
+    <repositories>
+        <repository name="netBeansMDR">
+            <models>
+                <model>
+                    <uri>${model.uri}</uri>
+                    <moduleSearchLocations>
+                        <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/profiles/uml14</location>
+                        <location patterns="**/*.xml.zip">${settings.localRepository}/org/andromda/metafacades</location>
+                    </moduleSearchLocations>
+                    <modelPackages>
+                        <modelPackage process="false">org::andromda::metafacades::uml</modelPackage>
+                    </modelPackages>
+                </model>
+            </models>            
+        </repository>
+    </repositories>
+    <namespaces>
+        <namespace name="default">
+            <properties>
+                <property name="languageMappingsUri">Java</property>
+                <property name="wrapperMappingsUri">JavaWrapper</property>
+                <property name="jdbcMappingsUri">JDBC</property>
+                <property name="sqlMappingsUri">MySQL</property>
+                <property name="mergeMappingsUri">file:${basedir}/src/test/mappings/MergeMappings.xml</property>
+            </properties>
+        </namespace>
+        <namespace name="meta">
+            <properties>
+                <property name="facades">${maven.build.src}</property>
+                <property name="facade-logics">${maven.build.src}</property>
+                <property name="facade-logic-impls">${java.src.dir}</property>
+            </properties>
+        </namespace>
+        <namespace name="java">
+            <properties>
+                <property name="value-objects">${maven.build.src}</property>
+            </properties>
+        </namespace>
+        <namespace name="poesys-db">
+            <properties>
+                <property name="languageMappingsUri">Java</property>
+                <property name="wrapperMappingsUri">JavaWrapper</property>
+                <property name="jdbcMappingsUri">JDBC</property>
+                <property name="sqlMappingsUri">MySQL</property>
+
+                <property name="enableTemplating">true</property>
+
+                <property name="java">${java.dir}/target/src</property>
+                <property name="java_manual">${java.dir}/src</property>
+                <property name="sql">${sql.dir}/target</property>
+                <property name="test_java">${java.dir}/target/test</property>
+                <property name="test_java_manual">${java.dir}/test</property>
+            </properties>
+        </namespace>
+    </namespaces>
+</andromda>

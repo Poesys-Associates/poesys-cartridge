@@ -1,0 +1,12 @@
+The files in this Poesys/DB cartridge conf/properties directory are the 
+properties files needed to configure testing in the test suite. We need to 
+remove these after testing so that the properties files don't interfere with the 
+versions in generated systems elsehwere in Eclipse.
+
+To configure unit testing, copy these files into 
+
+cartridges/poesys-db/src/java/com/poesys/db
+
+If you need to modify the copies to target specific databases or change options,
+please evaluate whether to save the changes back to the version control
+system by copying the file back into this conf/properties directory.

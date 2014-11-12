@@ -1,0 +1,24 @@
+Note to self about testing with logging.
+
+When running JUnit directly in Eclipse:
+
+The stupid log4j.xml configuration file that is actually used is in
+
+/Users/muller/dev/andromda-3.3/target
+
+When running code generation (maven) for testing the cartridge:
+
+The poesys-db-cartridge/conf/test/andromda.xml file has the loggingConfigurationUri
+URL that specifies where the file is. Currently:
+
+/Users/muller/dev/andromda-3.3/cartridges/poesys-db/conf/test/log4j.xml
+
+Maven automatically copies this file to the target directory as above,
+replacing any file that's there, so change in the test directory, not target.
+
+To turn on Log4J debugging to see what it's looking for:
+
+1. Add -Dlog4j_debug to the JVM arguments in the project properties.
+2. Edit the log4j.xml file and set debug="true" up near the top.
+
+When running

@@ -1,0 +1,50 @@
+// license-header java merge-point
+// Template: Delegate.vsl
+
+## The main data-transfer object (DTO)
+#set ($dto = $class.transformToDto(null))
+#set ($subsystem = $dto.subsystem)
+#set ($businessPackageName = $subsystem.businessPackageName)
+## used in catalog.xml for directory name
+#set ($businessPackageDir = ${stringUtils.replace($businessPackageName, ".", "/")})
+## Whether the objects of the class can change
+package ${businessPackageName};
+
+
+import com.poesys.db.connection.IConnectionFactory;
+
+
+/**
+ * <p>
+ * A business delegate that provides an application programming interface for
+ * ${dto.name} objects and their dependents. This class delegates to an abstract
+ * class, Abstract${dto.name}Delegate. You can modify this class to override
+ * methods in that class or to add operations to the API.
+ * </p>
+${dto.documentation}
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class ${dto.name}Delegate extends Abstract${dto.name}Delegate {
+  /**
+   * Create a ${dto.name}Delegate object with a supplied subsystem, using the
+   * default database properties (usually for testing).
+   * 
+   * @param subsystem the subsystem to use
+   */
+  public ${dto.name}Delegate(String subsystem) {
+    super(subsystem);
+  }
+  
+  /**
+   * Create a ${dto.name}Delegate object with a supplied subsystem and DBMS,
+   * usually JNDI for production/test usage with an application server.
+   * 
+   * @param subsystem the subsystem to use
+   * @param dbms the DBMS to use (usually IConnectionFactory.DBMS.JNDI)
+   */
+  public ${dto.name}Delegate(String subsystem, IConnectionFactory.DBMS dbms) {
+    super(subsystem, dbms);
+  }
+  
+}

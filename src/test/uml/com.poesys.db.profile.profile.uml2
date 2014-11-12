@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xmi:id="_16_0_90d0292_1234291408026_542318_230" name="com.poesys.db.profile" metamodelReference="_m8qbA686EdiEh75YJ_3n8gmetamodelReferencecom.poesys.db.profile">
+  <eAnnotations xmi:id="_9Q9lQfiiEd2EFOU5k9LcFg" source="attributes">
+    <details xmi:id="_9Q9lQviiEd2EFOU5k9LcFg" key="version" value="0"/>
+  </eAnnotations>
+  <eAnnotations xmi:id="_9Q9lQ_iiEd2EFOU5k9LcFg" source="ePackages">
+    <contents xmi:type="ecore:EPackage" xmi:id="_9Q9lRPiiEd2EFOU5k9LcFg" name="compoesysdbprofile_0" nsURI="http:///compoesysdbprofile_0_9Eq08PiiEd2EFOU5k9LcFg.profile.uml2" nsPrefix="compoesysdbprofile_0">
+      <eSubpackages xmi:id="_9Q9lRfiiEd2EFOU5k9LcFg" name="key" nsURI="http:///compoesysdbprofile_0/key.ecore" nsPrefix="compoesysdbprofile_0.key">
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lRviiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__AssociationKey">
+          <eAnnotations xmi:id="_9Q9lR_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lSPiiEd2EFOU5k9LcFg" key="documentation" value="a key for an association class comprising two or more primary keys from associated classes/linked objects"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lSfiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291468650_656962_238"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lSviiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__CompositeKey">
+          <eAnnotations xmi:id="_9Q9lS_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lTPiiEd2EFOU5k9LcFg" key="documentation" value="a key comprising a primary key from the parent (owning) class plus another set of one or more columns that, taken with the parent key, uniquely identifies the child object within the parent"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lTfiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291479540_457180_244"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lTviiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__IdentityKey">
+          <eAnnotations xmi:id="_9Q9lT_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lUPiiEd2EFOU5k9LcFg" key="documentation" value="a generated integer key (identity or auto-generated key) that gets generated when you insert an object and is not supplied in the insert statement"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lUfiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291490804_453825_250"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lUviiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__NaturalKey">
+          <eAnnotations xmi:id="_9Q9lU_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lVPiiEd2EFOU5k9LcFg" key="documentation" value="a key comprising one or more data attributes in the persistent class that, taken together, uniquely identify the object"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lVfiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291502589_540131_256"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lVviiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__SequenceKey">
+          <eAnnotations xmi:id="_9Q9lV_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lWPiiEd2EFOU5k9LcFg" key="documentation" value="a generated integer key generated from a sequence generator and supplied in the insert statement"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lWfiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291514757_776498_262"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lWviiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__AK">
+          <eAnnotations xmi:id="_9Q9lW_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lXPiiEd2EFOU5k9LcFg" key="documentation" value="Alternate Key: a property that is part of a group of properties that uniquely identify an object of the class"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lXfiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291548702_179936_269"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_9Q9lXviiEd2EFOU5k9LcFg" name="uniqueGroup" ordered="false" defaultValueLiteral="">
+            <eAnnotations xmi:id="_9Q9lX_iiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+              <details xmi:id="_9Q9lYPiiEd2EFOU5k9LcFg" key="documentation" value="the name of the group of properties that constitutes the alternate key to which this property belongs; this permits a class to have more than one alternate key (different unique groups)"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lYfiiEd2EFOU5k9LcFg" name="compoesysdbprofile__key__PK">
+          <eAnnotations xmi:id="_9Q9lYviiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291569269_904100_275"/>
+        </eClassifiers>
+      </eSubpackages>
+      <eSubpackages xmi:id="_9Q9lY_iiEd2EFOU5k9LcFg" name="persistence" nsURI="http:///compoesysdbprofile_0/persistence.ecore" nsPrefix="compoesysdbprofile_0.persistence">
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lZPiiEd2EFOU5k9LcFg" name="compoesysdbprofile__persistence__SizedProperty">
+          <eAnnotations xmi:id="_9Q9lZfiiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lZviiEd2EFOU5k9LcFg" key="documentation" value="a property having a length (string, varchar, character, clob, blob, and so on)"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lZ_iiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291606262_602137_287"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_9Q9laPiiEd2EFOU5k9LcFg" name="length" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lafiiEd2EFOU5k9LcFg" name="compoesysdbprofile__persistence__Number">
+          <eAnnotations xmi:id="_9Q9laviiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9la_iiEd2EFOU5k9LcFg" key="documentation" value="a numeric property having a scale and precision"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lbPiiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291626046_997591_293"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_9Q9lbfiiEd2EFOU5k9LcFg" name="precision" ordered="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_9Q9lbviiEd2EFOU5k9LcFg" name="scale" ordered="false">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lb_iiEd2EFOU5k9LcFg" name="compoesysdbprofile__persistence__Lazy">
+          <eAnnotations xmi:id="_9Q9lcPiiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9lcfiiEd2EFOU5k9LcFg" key="documentation" value="a property that loads lazily rather than loading immediately with the other attributes; usually a property that is an association end"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9lcviiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234291658600_655071_299"/>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_9Q9lc_iiEd2EFOU5k9LcFg" name="compoesysdbprofile__persistence__Subsystem">
+          <eAnnotations xmi:id="_9Q9ldPiiEd2EFOU5k9LcFg" source="http://www.eclipse.org/emf/2002/GenModel">
+            <details xmi:id="_9Q9ldfiiEd2EFOU5k9LcFg" key="documentation" value="A subsystem containing one or more persistent classes and a factory that generates various components of the implementation for the persistent objects"/>
+          </eAnnotations>
+          <eAnnotations xmi:id="_9Q9ldviiEd2EFOU5k9LcFg" source="stereotype" references="_16_0_90d0292_1234396764774_316357_607"/>
+        </eClassifiers>
+      </eSubpackages>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_m8qbA686EdiEh75YJ_3n8gmetamodelReferencecom.poesys.db.profile" visibility="private">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m8qbA686EdiEh75YJ_3n8g"/>
+  </packageImport>
+  <packageImport xmi:id="_EfRZoK86EdieaYgxtVWN8QprimitiveTypescom.poesys.db.profile">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:id="_RjmyoK86EdieaYgxtVWN8QjavaPrimitiveTypescom.poesys.db.profile">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <ownedMember xmi:type="uml:Package" xmi:id="_16_0_90d0292_1234291454851_792557_237" name="key">
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291468650_656962_238" name="AssociationKey">
+      <ownedComment xmi:id="_16_0_90d0292_1234292716954_393306_520" body="a key for an association class comprising two or more primary keys from associated classes/linked objects" annotatedElement="_16_0_90d0292_1234291468650_656962_238"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291741659_940431_316" name="base_Class" visibility="private" association="_16_0_90d0292_1234291741659_402176_315">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291479540_457180_244" name="CompositeKey">
+      <ownedComment xmi:id="_16_0_90d0292_1234292802076_278217_521" body="a key comprising a primary key from the parent (owning) class plus another set of one or more columns that, taken with the parent key, uniquely identifies the child object within the parent" annotatedElement="_16_0_90d0292_1234291479540_457180_244"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291755428_152721_321" name="base_Class" visibility="private" association="_16_0_90d0292_1234291755428_727173_320">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291490804_453825_250" name="IdentityKey">
+      <ownedComment xmi:id="_16_0_90d0292_1234292847742_331065_522" body="a generated integer key (identity or auto-generated key) that gets generated when you insert an object and is not supplied in the insert statement" annotatedElement="_16_0_90d0292_1234291490804_453825_250"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291819781_747534_326" name="base_Class" visibility="private" association="_16_0_90d0292_1234291819781_843682_325">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291502589_540131_256" name="NaturalKey">
+      <ownedComment xmi:id="_16_0_90d0292_1234292891550_261929_523" body="a key comprising one or more data attributes in the persistent class that, taken together, uniquely identify the object" annotatedElement="_16_0_90d0292_1234291502589_540131_256"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291832693_891919_331" name="base_Class" visibility="private" association="_16_0_90d0292_1234291832693_717169_330">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291514757_776498_262" name="SequenceKey">
+      <ownedComment xmi:id="_16_0_90d0292_1234292920575_593527_524" body="a generated integer key generated from a sequence generator and supplied in the insert statement" annotatedElement="_16_0_90d0292_1234291514757_776498_262"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291849125_365483_336" name="base_Class" visibility="private" association="_16_0_90d0292_1234291849125_710288_335">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291548702_179936_269" name="AK">
+      <ownedComment xmi:id="_16_0_90d0292_1234292614599_849517_518" body="Alternate Key: a property that is part of a group of properties that uniquely identify an object of the class" annotatedElement="_16_0_90d0292_1234291548702_179936_269"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291693788_551536_306" name="base_Property" visibility="private" association="_16_0_90d0292_1234291693788_908027_305">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291969597_30528_498" name="uniqueGroup">
+        <ownedComment xmi:id="_16_0_90d0292_1234292678154_8484_519" body="the name of the group of properties that constitutes the alternate key to which this property belongs; this permits a class to have more than one alternate key (different unique groups)" annotatedElement="_16_0_90d0292_1234291969597_30528_498"/>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291994148_162183_500" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291994147_187790_499"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291569269_904100_275" name="PK">
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291713938_795702_311" name="base_Property" visibility="private" association="_16_0_90d0292_1234291713938_464992_310">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291693788_908027_305" memberEnd="_16_0_90d0292_1234291693789_676623_307 _16_0_90d0292_1234291693788_551536_306">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291693789_676623_307" name="extension_AK" visibility="private" type="_16_0_90d0292_1234291548702_179936_269" association="_16_0_90d0292_1234291693788_908027_305" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291693789_317220_309" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291693789_625521_308"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291713938_464992_310" memberEnd="_16_0_90d0292_1234291713938_229800_312 _16_0_90d0292_1234291713938_795702_311">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291713938_229800_312" name="extension_PK" visibility="private" type="_16_0_90d0292_1234291569269_904100_275" association="_16_0_90d0292_1234291713938_464992_310" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291713938_313323_314" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291713938_502584_313"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291741659_402176_315" memberEnd="_16_0_90d0292_1234291741659_964751_317 _16_0_90d0292_1234291741659_940431_316">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291741659_964751_317" name="extension_AssociationKey" visibility="private" type="_16_0_90d0292_1234291468650_656962_238" association="_16_0_90d0292_1234291741659_402176_315" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291741659_680865_319" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291741659_901420_318"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291755428_727173_320" memberEnd="_16_0_90d0292_1234291755428_152721_321 _16_0_90d0292_1234291755429_145384_322">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291755429_145384_322" name="extension_CompositeKey" visibility="private" type="_16_0_90d0292_1234291479540_457180_244" association="_16_0_90d0292_1234291755428_727173_320" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291755429_108134_324" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291755429_454435_323"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291819781_843682_325" memberEnd="_16_0_90d0292_1234291819781_12057_327 _16_0_90d0292_1234291819781_747534_326">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291819781_12057_327" name="extension_IdentityKey" visibility="private" type="_16_0_90d0292_1234291490804_453825_250" association="_16_0_90d0292_1234291819781_843682_325" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291819782_979071_329" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291819781_951983_328"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291832693_717169_330" memberEnd="_16_0_90d0292_1234291832693_322899_332 _16_0_90d0292_1234291832693_891919_331">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291832693_322899_332" name="extension_NaturalKey" visibility="private" type="_16_0_90d0292_1234291502589_540131_256" association="_16_0_90d0292_1234291832693_717169_330" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291832693_731884_334" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291832693_394748_333"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291849125_710288_335" memberEnd="_16_0_90d0292_1234291849125_44326_337 _16_0_90d0292_1234291849125_365483_336">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291849125_44326_337" name="extension_SequenceKey" visibility="private" type="_16_0_90d0292_1234291514757_776498_262" association="_16_0_90d0292_1234291849125_710288_335" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291849125_619058_339" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291849125_753147_338"/>
+      </ownedEnd>
+    </ownedMember>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Package" xmi:id="_16_0_90d0292_1234291534614_945127_268" name="persistence">
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291606262_602137_287" name="SizedProperty">
+      <ownedComment xmi:id="_16_0_90d0292_1234293022298_21810_527" body="a property having a length (string, varchar, character, clob, blob, and so on)" annotatedElement="_16_0_90d0292_1234291606262_602137_287"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291948455_331568_361" name="base_Property" visibility="private" association="_16_0_90d0292_1234291948455_789378_360">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234292032583_123504_501" name="length">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8K86EdieaYgxtVWN8Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234292066517_431997_503" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234292066517_289306_502" value="1"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291626046_997591_293" name="Number">
+      <ownedComment xmi:id="_16_0_90d0292_1234292990433_813132_526" body="a numeric property having a scale and precision" annotatedElement="_16_0_90d0292_1234291626046_997591_293"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291897997_196736_346" name="base_Property" visibility="private" association="_16_0_90d0292_1234291897997_545418_345">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234292158562_326770_504" name="precision">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8K86EdieaYgxtVWN8Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234292180534_962101_506" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234292180534_937445_505"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234292193058_622091_507" name="scale">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8K86EdieaYgxtVWN8Q"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234292211785_991938_509" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234292211785_96758_508"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234291658600_655071_299" name="Lazy">
+      <ownedComment xmi:id="_16_0_90d0292_1234292972433_745968_525" body="a property that loads lazily rather than loading immediately with the other attributes; usually a property that is an association end" annotatedElement="_16_0_90d0292_1234291658600_655071_299"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234291875382_382074_341" name="base_Property" visibility="private" association="_16_0_90d0292_1234291875382_98920_340">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m9C1la86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291875382_98920_340" memberEnd="_16_0_90d0292_1234291875382_885068_342 _16_0_90d0292_1234291875382_382074_341">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291875382_885068_342" name="extension_Lazy" visibility="private" type="_16_0_90d0292_1234291658600_655071_299" association="_16_0_90d0292_1234291875382_98920_340" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291875382_518011_344" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291875382_869221_343"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291897997_545418_345" memberEnd="_16_0_90d0292_1234291897997_259482_347 _16_0_90d0292_1234291897997_196736_346">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291897997_259482_347" name="extension_Number" visibility="private" type="_16_0_90d0292_1234291626046_997591_293" association="_16_0_90d0292_1234291897997_545418_345" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291897997_856994_349" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291897997_583250_348"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234291948455_789378_360" memberEnd="_16_0_90d0292_1234291948455_331568_361 _16_0_90d0292_1234291948456_893794_362">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234291948456_893794_362" name="extension_SizedProperty" visibility="private" type="_16_0_90d0292_1234291606262_602137_287" association="_16_0_90d0292_1234291948455_789378_360" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234291948456_130845_364" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234291948456_509044_363"/>
+      </ownedEnd>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1234396764774_316357_607" name="Subsystem">
+      <ownedComment xmi:id="_16_0_90d0292_1234396849565_441655_618" body="A subsystem containing one or more persistent classes and a factory that generates various components of the implementation for the persistent objects" annotatedElement="_16_0_90d0292_1234396764774_316357_607"/>
+      <ownedAttribute xmi:id="_16_0_90d0292_1234396790867_436644_614" name="base_Package" visibility="private" association="_16_0_90d0292_1234396790867_88934_613">
+        <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m82oYa86EdiEh75YJ_3n8g"/>
+      </ownedAttribute>
+    </ownedMember>
+    <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1234396790867_88934_613" memberEnd="_16_0_90d0292_1234396790867_280835_615 _16_0_90d0292_1234396790867_436644_614">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1234396790867_280835_615" name="extension_Subsystem" visibility="private" type="_16_0_90d0292_1234396764774_316357_607" association="_16_0_90d0292_1234396790867_88934_613" aggregation="composite">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1234396790867_530610_617" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1234396790867_156910_616"/>
+      </ownedEnd>
+    </ownedMember>
+  </ownedMember>
+</uml:Profile>

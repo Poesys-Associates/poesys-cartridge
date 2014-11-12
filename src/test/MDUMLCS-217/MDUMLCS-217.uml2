@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile_0="http:///MagicDrawProfile_0_5eJd8ALZEd6zMYWHxPHhMw.profile.uml2" xmlns:persistence_0="http:///persistence_0_5eI24ALZEd6zMYWHxPHhMw.profile.uml2" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xsi:schemaLocation="http:///MagicDrawProfile_0_5eJd8ALZEd6zMYWHxPHhMw.profile.uml2 UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_50MAkQLZEd6zMYWHxPHhMw http:///persistence_0_5eI24ALZEd6zMYWHxPHhMw.profile.uml2 com.poesys.profile.persistence.profile.uml2#_50OcBALZEd6zMYWHxPHhMw" xmi:id="eee_1045467100313_135436_1" name="Data" appliedProfile="_11_5_be00301_1153310565718_226811_161profileApplicationData _16_0_90d0292_1235495898656_560674_247profileApplicationData _9_0_be00301_1108050582343_527400_10847profileApplicationData _be00301_1073394351331_445580_2profileApplicationData _11_5_f720368_1159529670215_231387_1profileApplicationData">
+  <ownedComment xmi:id="_16_0_90d0292_1235495532002_517766_230" body="Author:muller.&#xA;Created:2/24/09 9:12 AM.&#xA;Title:.&#xA;Comment:.&#xA;" annotatedElement="eee_1045467100313_135436_1"/>
+  <packageImport xmi:id="_EfRZoK86EdieaYgxtVWN8QprimitiveTypeData">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:id="_RjmyoK86EdieaYgxtVWN8QjavaPrimitiveTypeData">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_11_5_be00301_1153310565718_226811_161profileApplicationData">
+    <eAnnotations xmi:id="_50KxRQLZEd6zMYWHxPHhMw" source="attributes">
+      <details xmi:id="_50KxRgLZEd6zMYWHxPHhMw" key="version" value="0"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml2#_11_5_be00301_1153310565718_226811_161"/>
+    <importedProfile href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml2#_11_5_be00301_1153310565718_226811_161"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_16_0_90d0292_1235495898656_560674_247profileApplicationData">
+    <eAnnotations xmi:id="_50KxSALZEd6zMYWHxPHhMw" source="attributes">
+      <details xmi:id="_50KxSQLZEd6zMYWHxPHhMw" key="version" value="0"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="com.poesys.profile.persistence.profile.uml2#_16_0_90d0292_1235495898656_560674_247"/>
+    <importedProfile href="com.poesys.profile.persistence.profile.uml2#_16_0_90d0292_1235495898656_560674_247"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_9_0_be00301_1108050582343_527400_10847profileApplicationData">
+    <eAnnotations xmi:id="_50KxSwLZEd6zMYWHxPHhMw" source="attributes">
+      <details xmi:id="_50KxTALZEd6zMYWHxPHhMw" key="version" value="0"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.UML_Standard_Profile.profile.uml2#_9_0_be00301_1108050582343_527400_10847"/>
+    <importedProfile href="UML_Standard_Profile.UML_Standard_Profile.profile.uml2#_9_0_be00301_1108050582343_527400_10847"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_be00301_1073394351331_445580_2profileApplicationData">
+    <eAnnotations xmi:id="_50KxTgLZEd6zMYWHxPHhMw" source="attributes">
+      <details xmi:id="_50KxTwLZEd6zMYWHxPHhMw" key="version" value="0"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_be00301_1073394351331_445580_2"/>
+    <importedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_be00301_1073394351331_445580_2"/>
+  </packageImport>
+  <packageImport xmi:type="uml:ProfileApplication" xmi:id="_11_5_f720368_1159529670215_231387_1profileApplicationData">
+    <eAnnotations xmi:id="_50KxUQLZEd6zMYWHxPHhMw" source="attributes">
+      <details xmi:id="_50KxUgLZEd6zMYWHxPHhMw" key="version" value="0"/>
+    </eAnnotations>
+    <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.Validation_Profile.profile.uml2#_11_5_f720368_1159529670215_231387_1"/>
+    <importedProfile href="UML_Standard_Profile.Validation_Profile.profile.uml2#_11_5_f720368_1159529670215_231387_1"/>
+  </packageImport>
+  <ownedMember xmi:type="uml:Package" xmi:id="_16_0_90d0292_1235495603968_884514_364" name="com">
+    <ownedMember xmi:type="uml:Package" xmi:id="_16_0_90d0292_1235495611601_317702_365" name="poesys">
+      <ownedMember xmi:type="uml:Package" xmi:id="_16_0_90d0292_1235495629523_481524_366" name="test">
+        <ownedMember xmi:type="uml:Class" xmi:id="_16_0_90d0292_1235495649787_313206_388" name="X">
+          <eAnnotations xmi:id="_50dFIALZEd6zMYWHxPHhMw" source="appliedStereotypes">
+            <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_50dFIQLZEd6zMYWHxPHhMw"/>
+          </eAnnotations>
+          <ownedAttribute xmi:id="_16_0_90d0292_1235495658888_892573_407" name="xAttr">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_16_0_90d0292_1235495982881_907877_265" name="yyy" type="_16_0_90d0292_1235495673626_881006_410" association="_16_0_90d0292_1235495982881_12669_264">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1235495999961_369702_298" value="-1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1235495999961_341391_297"/>
+          </ownedAttribute>
+        </ownedMember>
+        <ownedMember xmi:type="uml:Class" xmi:id="_16_0_90d0292_1235495673626_881006_410" name="Y">
+          <eAnnotations xmi:id="_50dsMALZEd6zMYWHxPHhMw" source="appliedStereotypes">
+            <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_50dsMQLZEd6zMYWHxPHhMw"/>
+          </eAnnotations>
+          <ownedAttribute xmi:id="_16_0_90d0292_1235495682665_469574_429" name="yAttr">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_16_0_90d0292_1235495982881_605763_266" name="xxx" type="_16_0_90d0292_1235495649787_313206_388" association="_16_0_90d0292_1235495982881_12669_264">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1235495993384_871689_294" value="-1"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1235495993384_819213_293"/>
+          </ownedAttribute>
+        </ownedMember>
+        <ownedMember xmi:type="uml:AssociationClass" xmi:id="_16_0_90d0292_1235495982881_12669_264" name="Z" memberEnd="_16_0_90d0292_1235495982881_605763_266 _16_0_90d0292_1235495982881_907877_265">
+          <eAnnotations xmi:id="_50b3AALZEd6zMYWHxPHhMw" source="appliedStereotypes">
+            <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_50b3AQLZEd6zMYWHxPHhMw"/>
+          </eAnnotations>
+          <ownedAttribute xmi:id="_16_0_90d0292_1235496019624_307227_308" name="zAttr">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_IXlH8a86EdieaYgxtVWN8Q"/>
+          </ownedAttribute>
+        </ownedMember>
+      </ownedMember>
+      <ownedMember xmi:type="uml:Package" xmi:id="_16_0_90d0292_1235495888519_717376_246" name="profile"/>
+    </ownedMember>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Package" xmi:id="magicdraw_uml_standard_profile_v_0001" name="UML Standard Profile">
+    <eAnnotations xmi:id="_50loAALZEd6zMYWHxPHhMw" source="appliedStereotypes">
+      <contents xmi:type="MagicDrawProfile_0:MagicDrawProfile__auxiliaryResource" xmi:id="_50loAQLZEd6zMYWHxPHhMw"/>
+    </eAnnotations>
+    <ownedComment xmi:id="_be00301_1078843546940_242228_131" body="UML Standard Profile contains several popular stereotypes, tag definitions and constraints described in UML  2 Specifications." annotatedElement="magicdraw_uml_standard_profile_v_0001"/>
+  </ownedMember>
+</uml:Model>

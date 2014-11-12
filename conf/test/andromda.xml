@@ -1,0 +1,36 @@
+<andromda>
+    <properties>
+        <property name="failOnValidationErrors">false</property>
+        <property name="loggingConfigurationUri">file:${basedir}/conf/test/log4j.xml</property>
+    </properties>
+    <repositories>
+        <repository name="emf-uml2">
+            <models>
+                <model type="emf-uml2">
+                    <uri>${test.model.uri}</uri>
+                </model>
+            </models>
+        </repository>
+    </repositories>
+    <namespaces>
+        <namespace name="db">
+            <properties>
+                <property name="languageMappingsUri">Java</property>
+                <property name="wrapperMappingsUri">JavaWrapper</property>
+                <property name="jdbcMappingsUri">JDBC</property>
+                <property name="sqlMappingsUri">file:${basedir}/src/test/mappings/AnsiMappings.xml</property>
+                <property name="mergeMappingsUri">file:${basedir}/src/test/mappings/MergeMappings.xml</property>
+                
+                <property name="enableTemplating">true</property>
+                <property name="useInterfaceForAssociation">true</property>
+                <property name="pluralizeAssociationEndNames">true</property>
+
+                <property name="java">${java.dir}/target/src</property>
+                <property name="java_manual">${java.dir}/src</property>
+                <property name="sql">${sql.dir}/target</property>
+                <property name="test_java">${java.dir}/target/test</property>
+                <property name="test_java_manual">${java.dir}/test</property>
+            </properties>
+        </namespace>
+    </namespaces>
+</andromda>

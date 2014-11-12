@@ -1,0 +1,21 @@
+// license-header java merge-point
+// Template: SubsystemFactory.vsl
+
+#set ($sub = $subsystem.transformToSubsystem())
+#set ($className = $sub.className)
+package ${sub.fullyQualifiedName};
+
+
+/**
+ * <p>
+ * A separate, shareable set of factory methods for all the ${subsystem.name}
+ * classes, including JDBC data-setting, parameter-setting, and
+ * primary-key-generation methods.
+ * </p>
+$sub.documentation
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class ${sub.className}Factory extends Abstract${sub.className}Factory {
+
+}

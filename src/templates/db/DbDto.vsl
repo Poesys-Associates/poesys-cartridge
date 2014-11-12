@@ -1,0 +1,76 @@
+// license-header java merge-point
+// Template: DbDto.vsl
+
+## The concrete data-access data-transfer object (DTO)
+#set ($dto = $class.transformToDto(null))
+package ${dto.packageName};
+
+
+import com.poesys.db.pk.IPrimaryKey;
+
+
+/**
+ * <p>
+ * A data-access layer data-transfer object for the ${dto.name}. This class
+ * is the concrete subclass of the generated abstract class. Make any changes
+ * to DTO behavior by overriding methods here rather than changing the abstract
+ * superclass; AndroMDA will overwrite that class when you run it but will
+ * never overwrite this concrete subclass.
+ * </p>
+${dto.documentation}
+ * <p>
+ * Stereotypes:
+ * </p>
+ * <ul>
+#foreach ($name in ${dto.stereotypeNames})
+ *     <li>$name</li>
+#end
+ * </ul>
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public#if (${dto.abstractClass}) abstract#end class ${dto.name} extends Abstract${dto.name} {
+  /** Default serial version UID for the Serializable DTO */
+  private static final long serialVersionUID = 1L;
+
+  /**
+   * <p>
+   * Create a ${dto.name} as a new object. This constructor calls the abstract 
+   * superclass constructor.
+   * </p>
+#if ($dto.abstractClass)
+   * <p>
+   * This class is abstract, so there must be a concrete subclass defined in 
+   * the UML diagram that calls this constructor.
+   * </p>
+#end
+   *
+   */
+  public ${dto.name}() {
+    super(); 
+  }
+
+  /**
+   * <p>
+   * Create a ${dto.name}. This constructor calls the abstract superclass 
+   * constructor.
+   * </p>
+#if ($dto.abstractClass)
+   * <p>
+   * This class is abstract, so there must be a concrete subclass defined in 
+   * the UML diagram that calls this constructor.
+   * </p>
+#end
+   *
+   * @param key the primary key of the ${dto.name}
+#foreach ($key in $dto.associatedKeys)
+   * @param ${key.name}Object wraps an associated I${key.typeName} object
+#end
+#foreach ($property in $dto.constructorArgs)
+   * @param ${property.uniqueName} ${property.paramTag}
+#end
+   */
+  public ${dto.name}(IPrimaryKey key#foreach ($key in $dto.associatedKeys), ${key.packageName}.I${key.typeName} ${key.name}Object#end#foreach ($property in $dto.constructorArgs), ${property.typeName} ${property.uniqueName}#end) {
+    super(key#foreach ($key in $dto.associatedKeys), ${key.name}Object#end#foreach ($property in $dto.constructorArgs), ${property.uniqueName}#end); 
+  }
+}

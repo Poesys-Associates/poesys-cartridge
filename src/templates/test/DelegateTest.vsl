@@ -1,0 +1,208 @@
+// license-header java merge-point
+// Template: DelegateTest.vsl
+
+## The concrete business data-transfer object (Bs DTO)
+#set ($dto = $class.transformToDto(null))
+#set ($businessPackageName = $dto.subsystem.businessPackageName)
+## used in catalog.xml for directory name
+#set ($businessPackageDir = ${stringUtils.replace($businessPackageName, ".", "/")})
+package ${businessPackageName};
+
+
+/**
+ * <p>
+ * A test class for the ${dto.name}Delegate class. This class
+ * is the concrete subclass of the generated abstract class. Make any changes
+ * to DTO behavior by overriding methods here rather than changing the abstract
+ * superclass; AndroMDA will overwrite that class when you run it but will
+ * never overwrite this concrete subclass.
+ * </p>
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class ${dto.name}DelegateTest extends ${businessPackageName}.Abstract${dto.name}DelegateTest {
+#foreach($child in $dto.childDtos)
+## Only produce the create methods for read/write DTOs and child DTOs
+#if ($dto.readWrite && $child.readWrite)
+#if ($child.keyType == "AssociationKey")
+
+#set ($sep="")
+  @Override
+  protected java.util.List<${child.subsystem.businessPackageName}.Bs${child.name}> create${child.uniqueName}(#foreach ($key in $child.associatedKeys)${sep}java.util.List<${key.packageName}.I${key.typeName}> ${key.prefix}List#set ($sep=", ")#end, int count) 
+#else
+
+  @Override
+  protected java.util.List<Bs${child.name}> create${child.uniqueName}(${dto.packageName}.I${dto.name} parent, int count)
+#end
+      throws com.poesys.bs.delegate.DelegateException, 
+             com.poesys.db.InvalidParametersException, 
+             com.poesys.db.dto.DtoStatusException {
+    java.util.List<Bs${child.name}> objects = 
+      new java.util.concurrent.CopyOnWriteArrayList<Bs${child.name}>();
+    
+#if ($child.keyType == "AssociationKey")
+    // Check the input requirements. The input lists must each have at
+    // least count objects as they must map objects one-to-one.
+#foreach ($key in $child.associatedKeys)
+    if (${key.prefix}List.size() < count) {
+      org.junit.Assert.fail("create${child.uniqueName} ${key.prefix}List list has " + ${key.prefix}List.size() + 
+        " elements but needs at least " + count);
+    }
+#end
+
+    // implement child creation by mapping the objects in the input lists one-to-one
+    
+    ${dto.name}Delegate delegate =
+       ${dto.subsystem.className}DelegateFactory.get${dto.name}Delegate();
+       
+    for (int i = 0; i < count; i++) {
+#set ($sep="")
+#foreach ($key in $child.associatedKeys)
+      Bs${key.typeName} ${key.prefix}Object = new Bs${key.typeName}(${key.prefix}List.get(i));
+#end
+
+      // TODO: Build correct list of constructor args after key object args (for inherited, natural, and multi-attribute keys that don't use the <name>Id convention, plus object properties for the association class itself).
+      Bs${child.name} link =
+        delegate.create${child.name}(#foreach ($key in $child.associatedKeys)${sep}${key.prefix}Object#set ($sep=", ")#end#foreach ($key in $child.associatedKeys)${sep}${key.prefix}Object.get${key.typeName}Id()#set ($sep=", ")#end);
+      objects.add(link);
+    }
+#else   
+    // TODO implement child creation (see javadoc for abstract parent).
+#end
+
+    return objects;
+  }
+#end
+#end
+## Generate a create method for the non-Integer required object properties.
+#foreach ($property in $dto.testVars)
+#if ($property.associationEnd && $property.typeName != "java.math.BigInteger" && $property.required)
+
+  /**
+   * Get a list of test objects for the create method for the $dto.name 
+   * property ${property.name}. Usually this will involve querying an 
+   * existing object from the database. Replace the generated code with 
+   * appropriate creation code if necessary.
+   *
+   * @param objectNumber the sequential counter that identifies the object to
+   *                     return a key for in the implementation
+   * @return List of Bs${property.dto.name} objects
+   */
+  protected java.util.List<${dto.subsystem.businessPackageName}.Bs${property.dto.name}> create${stringUtils.capitalize($property.uniqueName)}${property.dto.name}(int objectNumber) {
+    java.util.List<${dto.subsystem.businessPackageName}.Bs${property.dto.name}> objects = 
+      new java.util.ArrayList<Bs${property.dto.name}>(objectNumber);
+    // TODO Implement object creation for the required nested 
+    // ${property.dto.name} object ${property.uniqueName}.
+    for (int i = 0; i < objectNumber; i++) {
+      // Query a ${property.dto.name} object from the database.
+      ${property.dto.name}Delegate ${property.uniqueName}Delegate = 
+        ${dto.subsystem.businessPackageName}.${dto.subsystem.className}DelegateFactory.get${property.dto.name}Delegate();
+      com.poesys.db.pk.IPrimaryKey key = ${dto.packageName}.${dto.subsystem.className}Factory.get${property.dto.name}PrimaryKey(#set($sep="")#foreach ($key in $property.dto.keyProperties)${sep}${key.uniqueName}#set($sep=", ")#end);
+      objects.add(${property.uniqueName}Delegate.getObject((/* keytype here */com.poesys.db.pk.NaturalPrimaryKey)key));
+    }
+    return objects;
+  }
+#end
+#end
+#foreach($key in $dto.foreignKeys)
+## Proceed only for non-inheritance foreign keys
+#if (!$key.generalization)
+
+#if ($key.keyType == "AssociationKey")
+#set ($dto1 = $key.getAssociatedDtos().get(0))
+#set ($dto2 = $key.getAssociatedDtos().get(1))
+
+  @Override
+  protected List<${key.businessPackageName}.Bs${key.typeName}> create${key.uniqueTypeName}(List<${dto1.packageName}.I${dto1.name}> objects1, 
+                                                       List<${dto2.packageName}.I${dto2.name}> objects2, int count)
+#else
+
+  @Override
+  protected java.util.List<${key.businessPackageName}.Bs${key.typeName}> create${key.uniqueTypeName}(int count)
+#end
+      throws com.poesys.bs.delegate.DelegateException, 
+             com.poesys.db.InvalidParametersException, 
+             com.poesys.db.dto.DtoStatusException {
+    java.util.List<${key.businessPackageName}.Bs${key.typeName}> objects = 
+      new java.util.concurrent.CopyOnWriteArrayList<${key.businessPackageName}.Bs${key.typeName}>();
+    @SuppressWarnings("unused")
+    java.util.Random r = new java.util.Random();
+    
+#if ($key.keyType == "AssociationKey")
+    // Check the input requirements.
+    if (objects1.size() < count) {
+      org.junit.Assert.fail("create${key.uniqueTypeName} objects1 array has " + objects1.size() + 
+        " elements but needs at least " + count);
+    }
+    if (objects2.size() < count) {
+      org.junit.Assert.fail("create${key.uniqueTypeName} objects2 array has " + objects2.size() + 
+        " elements but needs at least " + count);
+    }
+
+#end   
+    // TODO implement child creation (see javadoc for abstract parent)
+    
+    return objects;
+  }
+#end
+#end
+##if (!$dto.readWrite)
+##foreach ($property in $dto.testVars)
+##if ($property.key)
+##
+##  @Override
+##  protected ${property.typeName} getTestKey${stringUtils.capitalize($property.uniqueName)}(int objectNumber) {
+##    ${property.typeName} keyValue = null;
+##    // TODO Implement key value for $property.uniqueName here.
+##    return keyValue;
+##  }
+##end
+##end
+##end
+#if ($dto.readWrite)
+#foreach ($key in $dto.foreignKeys)
+#foreach ($property in $key.keyProperties)
+## Produce method only for foreign keys that are also primary keys for the DTO.
+## Ignore generalization foreign keys (inherited primary key).
+#if ($property.key && !$key.generalization)
+
+  @Override
+  protected ${property.typeName} getTestKey${stringUtils.capitalize($property.uniqueName)}(int objectNumber) {
+    // TODO Implement test key value for $property.uniqueName here.
+    return null;
+  }
+#end
+#end
+#end
+#else
+#foreach ($property in $dto.testVars)
+#if ($property.key)
+
+  @Override
+  protected ${property.typeName} getTestKey${stringUtils.capitalize($property.uniqueName)}(int objectNumber) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+#end
+#end
+#end
+
+#if ($dto.readWrite)
+  @Override
+  public void testTruncateTable() {
+    // Truncate usually is hard; super.testTruncateTable() if desired
+  }
+#end
+
+  @Override
+  public void testGetAllObjects() {
+    // Too many objects to get, super.testGetAllObjects() if desired
+  }
+  
+  @Override
+  protected String getSubsystem() {
+    // return explicit subsystem name
+    return "${dto.subsystem.fullyQualifiedName}";
+    // use super.getSubsystem() to get default subsystem name if needed
+  }
+}

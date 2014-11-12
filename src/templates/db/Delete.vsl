@@ -1,0 +1,25 @@
+// license-header java merge-point
+// Template: Delete.vsl
+
+## The concrete data-access data-transfer object (DTO)
+#set ($dto = $class.transformToDto(null))
+package ${dto.packageName}.sql;
+
+
+/**
+ * <p>
+ * A delete of a ${dto.name}. This class is the concrete subclass of the 
+ * generated abstract class AbstractDelete${dto.name}. 
+ * </p>
+ * <p>
+ * Make any changes to delete behavior by overriding methods here rather than 
+ * changing the abstract superclass; AndroMDA will overwrite that class when you
+ * run it but will never overwrite this concrete subclass.
+ * </p>
+${dto.getDocumentation}
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class Delete${dto.name} extends AbstractDelete${dto.name} {
+
+}

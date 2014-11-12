@@ -1,0 +1,768 @@
+<cartridge>
+    <templateObject
+        name="stringUtils"
+        className="org.apache.commons.lang.StringUtils"
+    />
+    <templateObject
+        name="escapeUtils"
+        className="org.apache.commons.lang.StringEscapeUtils"
+    />
+    <templateObject
+        name="date"
+        className="java.util.Date"
+    />
+    <template
+        path="templates/db/IDbDto.vsl"
+        outputPattern="{0}/I{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/IDbDto.vsl"
+        outputPattern="{0}/I{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractDbDto.vsl"
+        outputPattern="{0}/Abstract{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractDbDto.vsl"
+        outputPattern="{0}/Abstract{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/DbDto.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/DbDto.vsl"
+        outputPattern="{0}/{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractDbDtoProxy.vsl"
+        outputPattern="{0}/Abstract{1}Proxy.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractDbDtoProxy.vsl"
+        outputPattern="{0}/Abstract{1}Proxy.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/DbDtoProxy.vsl"
+        outputPattern="{0}/{1}Proxy.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/DbDtoProxy.vsl"
+        outputPattern="{0}/{1}Proxy.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractSubsystemFactory.vsl"
+        outputPattern="{0}/Abstract${className}Factory.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/SubsystemFactory.vsl"
+        outputPattern="{0}/${className}Factory.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQuery.vsl"
+        outputPattern="{0}/sql/AbstractQuery{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Query.vsl"
+        outputPattern="{0}/sql/Query{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQuery.vsl"
+        outputPattern="{0}/sql/AbstractQuery{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Query.vsl"
+        outputPattern="{0}/sql/Query{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQueryAll.vsl"
+        outputPattern="{0}/sql/AbstractQueryAll{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQueryAll.vsl"
+        outputPattern="{0}/sql/AbstractQueryAll{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/QueryAll.vsl"
+        outputPattern="{0}/sql/QueryAll{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/QueryAll.vsl"
+        outputPattern="{0}/sql/QueryAll{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQueryAssociatedOneToManyObjects.vsl"
+        outputPattern="{0}/sql/AbstractQuery${queryName}By${query.foreignTypeName}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="association">
+                <type name="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacade">
+                    <property name="oneToMany">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/QueryAssociatedOneToManyObjects.vsl"
+        outputPattern="{0}/sql/Query${queryName}By${query.foreignTypeName}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="association">
+                <type name="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacade">
+                    <property name="oneToMany">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQueryAssociatedManyToManyObjects.vsl"
+        outputPattern="${subsystemPathName}/sql/AbstractQuery${queryName}By${query.foreignTypeName}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="association">
+                <type name="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacade">
+                    <property name="manyToMany">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/QueryAssociatedManyToManyObjects.vsl"
+        outputPattern="${subsystemPathName}/sql/Query${queryName}By${query.foreignTypeName}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="association">
+                <type name="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacade">
+                    <property name="manyToMany">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractQueryAssociatedLinks.vsl"
+        outputPattern="${subsystemPathName}/sql/AbstractQuery${queryName}By${query.typeName}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="associationEnd">
+                <type name="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacade">
+                    <property name="manyToMany">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/QueryAssociatedLinks.vsl"
+        outputPattern="${subsystemPathName}/sql/Query${queryName}By${query.typeName}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="association">
+                <type name="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacade">
+                    <property name="manyToMany">true</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractInsert.vsl"
+        outputPattern="{0}/sql/AbstractInsert{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Insert.vsl"
+        outputPattern="{0}/sql/Insert{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractInsert.vsl"
+        outputPattern="{0}/sql/AbstractInsert{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Insert.vsl"
+        outputPattern="{0}/sql/Insert{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractUpdate.vsl"
+        outputPattern="{0}/sql/AbstractUpdate{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade">
+                    <property name="immutable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Update.vsl"
+        outputPattern="{0}/sql/Update{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade">
+                    <property name="immutable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractUpdate.vsl"
+        outputPattern="{0}/sql/AbstractUpdate{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade">
+                    <property name="immutable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Update.vsl"
+        outputPattern="{0}/sql/Update{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade">
+                    <property name="immutable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractDelete.vsl"
+        outputPattern="{0}/sql/AbstractDelete{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade">
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Delete.vsl"
+        outputPattern="{0}/sql/Delete{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade">
+                    <property name="unremovable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/AbstractDelete.vsl"
+        outputPattern="{0}/sql/AbstractDelete{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade">
+                    <property name="unremovable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/db/Delete.vsl"
+        outputPattern="{0}/sql/Delete{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade">
+                    <property name="unremovable">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/AbstractBsDto.vsl"
+        outputPattern="${businessPackageDir}/AbstractBs{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/AbstractBsDto.vsl"
+        outputPattern="${businessPackageDir}/AbstractBs{1}.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/BsDto.vsl"
+        outputPattern="${businessPackageDir}/Bs{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/BsDto.vsl"
+        outputPattern="${businessPackageDir}/Bs{1}.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/AbstractSubsystemDelegateFactory.vsl"
+        outputPattern="${businessPackageDir}/Abstract${className}DelegateFactory.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/SubsystemDelegateFactory.vsl"
+        outputPattern="${businessPackageDir}/${className}DelegateFactory.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/AbstractDelegate.vsl"
+        outputPattern="${businessPackageDir}/Abstract{1}Delegate.java"
+        outlet="java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" >
+                    <property name="abstract">false</property>
+                    <property name="child">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/bs/Delegate.vsl"
+        outputPattern="${businessPackageDir}/{1}Delegate.java"
+        outlet="java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" >
+                    <property name="abstract">false</property>
+                    <property name="child">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/SubsystemAnsiSchemaTables.vsl"
+        outputPattern="Create${schema}Tables.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/SubsystemOracleSchemaTables.vsl"
+        outputPattern="CreateOracle${schema}Tables.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/SubsystemMySqlSchemaTables.vsl"
+        outputPattern="CreateMySql${schema}Tables.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/DropSubsystemSchemaTables.vsl"
+        outputPattern="Drop${schema}Tables.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/DropSubsystemMySqlSchemaTables.vsl"
+        outputPattern="DropMySql${schema}Tables.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/SubsystemAnsiSchemaForeignKeys.vsl"
+        outputPattern="CreateAnsi${schema}ForeignKeys.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/schema/SubsystemSybaseSchemaForeignKeys.vsl"
+        outputPattern="CreateSybase${schema}ForeignKeys.sql"
+        outlet="sql"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="subsystem">
+                <type name="com.poesys.cartridges.db.metafacades.SubsystemFacade" />
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/test/AbstractDelegateTest.vsl"
+        outputPattern="${businessPackageDir}/Abstract{1}DelegateTest.java"
+        outlet="test_java"
+        overwrite="true"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" >
+                    <property name="abstract">false</property>
+                    <property name="child">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+    <template
+        path="templates/test/DelegateTest.vsl"
+        outputPattern="${businessPackageDir}/{1}DelegateTest.java"
+        outlet="test_java_manual"
+        overwrite="false"
+        outputToSingleFile="false"
+    >
+        <modelElements>
+            <modelElement variable="class">
+                <type name="com.poesys.cartridges.db.metafacades.PersistentClassFacade" >
+                    <property name="abstract">false</property>
+                    <property name="child">false</property>
+                </type>
+            </modelElement>
+        </modelElements>
+    </template>
+</cartridge>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xmi:id="_16_0_90d0292_1235495898656_560674_247" name="persistence" metamodelReference="_m8qbA686EdiEh75YJ_3n8gmetamodelReferencepersistence">
+  <eAnnotations xmi:id="_50OcAQLZEd6zMYWHxPHhMw" source="attributes">
+    <details xmi:id="_50OcAgLZEd6zMYWHxPHhMw" key="version" value="0"/>
+  </eAnnotations>
+  <eAnnotations xmi:id="_50OcAwLZEd6zMYWHxPHhMw" source="ePackages">
+    <contents xmi:type="ecore:EPackage" xmi:id="_50OcBALZEd6zMYWHxPHhMw" name="persistence_0" nsURI="http:///persistence_0_5eI24ALZEd6zMYWHxPHhMw.profile.uml2" nsPrefix="persistence_0">
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_50OcBQLZEd6zMYWHxPHhMw" name="persistence__Persistent">
+        <eAnnotations xmi:id="_50OcBgLZEd6zMYWHxPHhMw" source="stereotype" references="_16_0_90d0292_1235495908567_438944_248"/>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <packageImport xmi:id="_m8qbA686EdiEh75YJ_3n8gmetamodelReferencepersistence" visibility="private">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m8qbA686EdiEh75YJ_3n8g"/>
+  </packageImport>
+  <packageImport xmi:id="_EfRZoK86EdieaYgxtVWN8QprimitiveTypespersistence">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <packageImport xmi:id="_RjmyoK86EdieaYgxtVWN8QjavaPrimitiveTypespersistence">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
+  </packageImport>
+  <ownedMember xmi:type="uml:Stereotype" xmi:id="_16_0_90d0292_1235495908567_438944_248" name="Persistent">
+    <ownedAttribute xmi:id="_16_0_90d0292_1235495943824_971958_255" name="base_Class" visibility="private" association="_16_0_90d0292_1235495943824_586435_254">
+      <type xmi:type="uml:Class" href="pathmap://UML2_METAMODELS/UML2.metamodel.uml2#_m88uxq86EdiEh75YJ_3n8g"/>
+    </ownedAttribute>
+  </ownedMember>
+  <ownedMember xmi:type="uml:Extension" xmi:id="_16_0_90d0292_1235495943824_586435_254" memberEnd="_16_0_90d0292_1235495943824_971958_255 _16_0_90d0292_1235495943824_614814_256">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_16_0_90d0292_1235495943824_614814_256" name="extension_Persistent" visibility="private" type="_16_0_90d0292_1235495908567_438944_248" association="_16_0_90d0292_1235495943824_586435_254" aggregation="composite">
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_0_90d0292_1235495943824_631194_258" value="1"/>
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_0_90d0292_1235495943824_730002_257"/>
+    </ownedEnd>
+  </ownedMember>
+</uml:Profile>

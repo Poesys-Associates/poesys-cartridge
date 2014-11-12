@@ -1,0 +1,25 @@
+// license-header java merge-point
+// Template: Insert.vsl
+
+## The concrete data-access data-transfer object (DTO)
+#set ($dto = $class.transformToDto(null))
+package ${dto.packageName}.sql;
+
+
+/**
+ * <p>
+ * An insert of a ${dto.name}. This class is the concrete subclass of the 
+ * generated abstract class AbstractInsert${dto.name}. 
+ * </p>
+ * <p>
+ * Make any changes to insert behavior by overriding methods here rather than 
+ * changing the abstract superclass; AndroMDA will overwrite that class when you
+ * run it but will never overwrite this concrete subclass.
+ * </p>
+${dto.getDocumentation}
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class Insert${dto.name} extends AbstractInsert${dto.name} {
+
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- contains the cartridge metafacade mappings -->
+<metafacades>
+    <metafacade class="com.poesys.cartridges.db.metafacades.SubsystemFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.PackageImpl">
+            <stereotype>SUBSYSTEM</stereotype>
+        </mapping>
+    </metafacade>
+    <metafacade class="com.poesys.cartridges.db.metafacades.PersistentClassFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.ClassImpl">
+            <stereotype>PERSISTENT</stereotype>
+        </mapping>
+        <property reference="useInterfaceForAssociation" />
+        <property reference="sqlMappingsUri" />
+    </metafacade>
+    <metafacade class="com.poesys.cartridges.db.metafacades.PersistentAssociationClassFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.AssociationClassImpl">
+            <stereotype>PERSISTENT</stereotype>
+        </mapping>
+        <property reference="useInterfaceForAssociation" />
+    </metafacade>
+    <metafacade class="com.poesys.cartridges.db.metafacades.PersistentPropertyFacadeLogicImpl">
+        <mapping class="org.eclipse.uml2.impl.PropertyImpl">
+            <stereotype>PERSISTENT</stereotype>
+        </mapping>
+        <property reference="useInterfaceForAssociation" />
+        <property reference="sqlMappingsUri" />
+    </metafacade>
+    <metafacade class="com.poesys.cartridges.db.metafacades.ParameterizedQuerySqlFacadeLogicImpl">
+        <mapping class="org.andromda.metafacades.emf.uml2.AssociationEndImpl">
+            <stereotype>PERSISTENT</stereotype>
+        </mapping>
+        <property reference="useInterfaceForAssociation" />
+        <property reference="sqlMappingsUri" />
+    </metafacade>
+</metafacades>
