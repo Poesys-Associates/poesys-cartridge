@@ -1,0 +1,28 @@
+// license-header java merge-point
+// Template: QueryAssociatedManyToManyObjects.vsl
+
+## The to-many property
+#set ($query = $association.transformToQuery())
+#set ($subsystemName = $query.associatedDto.packageName)
+#set ($subsystemPathName = $stringUtils.replace($subsystemName, ".", "/"))
+#set ($queryName = ${stringUtils.capitalize($query.name)})
+package ${subsystemName}.sql;
+
+
+/**
+ * <p>
+ * A query of a collection of ${query.typeName} objects using the primary key of 
+ * an associated ${query.foreignTypeName} object. This class is the concrete 
+ * subclass of the generated abstract class AbstractQuery${queryName}By${query.typeName}.
+ *</p>
+ * <p>
+ * Make any changes to query behavior by overriding methods here rather than 
+ * changing the abstract superclass; AndroMDA will overwrite that class when you
+ * run it but will never overwrite this concrete subclass.
+ * </p>
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class Query${queryName}By${query.foreignTypeName} extends AbstractQuery${queryName}By${query.foreignTypeName} {
+
+}

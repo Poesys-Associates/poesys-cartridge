@@ -1,0 +1,22 @@
+// license-header java merge-point
+// Template: SubsystemDelegateFactory.vsl
+
+#set ($sub = $subsystem.transformToSubsystem())
+#set ($className = $sub.className)
+## used in catalog.xml for directory name
+#set ($businessPackageDir = ${stringUtils.replace($sub.businessPackageName, ".", "/")})
+package ${sub.businessPackageName};
+
+
+/**
+ * <p>
+ * A separate, shareable set of factory methods for all the ${subsystem.name}
+ * business delegate classes
+ * </p>
+$sub.documentation
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class ${sub.className}DelegateFactory extends Abstract${sub.className}DelegateFactory {
+
+}

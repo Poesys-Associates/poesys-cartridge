@@ -1,0 +1,29 @@
+// license-header java merge-point
+// Template: QueryAssociatedLinks.vsl
+
+## The to-many property
+#set ($query = $association.transformToQuery())
+#set ($subsystemName = $query.associationDto.packageName)
+#set ($subsystemPathName = $stringUtils.replace($subsystemName, ".", "/"))
+#set ($queryName = ${stringUtils.capitalize($query.linksPropertyName)})
+package ${subsystemName}.sql;
+
+
+/**
+ * <p>
+ * A query Command pattern object that implements a SQL query of a collection of 
+ * ${query.associationTypeName} objects using the primary key of the associated
+ * class ${query.typeName}. These objects are the linking objects rather than
+ * the objects associated through the link, which have a separate representation.
+ * </p>
+ * <p>
+ * Make any changes to query behavior by overriding methods here rather than 
+ * changing the abstract superclass; AndroMDA will overwrite that class when you
+ * run it but will never overwrite this concrete subclass.
+ * </p>
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class Query${queryName}By${query.typeName} extends AbstractQuery${queryName}By${query.typeName} {
+
+}

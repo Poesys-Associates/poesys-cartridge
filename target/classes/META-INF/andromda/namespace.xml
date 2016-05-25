@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<namespace name="db">
+    <components>
+        <component name="cartridge">
+            <path>META-INF/andromda/cartridge.xml</path>
+        </component>
+        <component name="metafacades">
+            <path>META-INF/andromda/metafacades.xml</path>
+        </component>
+        <component name="profile">
+            <path>META-INF/andromda/profile.xml</path>
+        </component>
+    </components>
+    <properties>
+        <!-- namespace-propertyGroup merge-point -->
+        <propertyGroup name="Outlets">
+            <documentation>Defines the locations to which AndroMDA generates output</documentation>
+            <property name="java">
+                <documentation>The location to which AndroMDA generates the non-editable Java classes</documentation>
+            </property>
+            <property name="java_manual">
+                <documentation>The location to which AndroMDA generates the user-editable Java classes</documentation>
+            </property>
+            <property name="test_java">
+                <documentation>The location to which AndroMDA generates the non-editable Java JUnit test classes</documentation>
+            </property>
+            <property name="test_java_manual">
+                <documentation>The location to which AndroMDA generates the user-editable Java JUnit test classes</documentation>
+            </property>
+            <property name="sql">
+                <documentation>The location to which AndroMDA generates the SQL scripts</documentation>
+            </property>
+        </propertyGroup>
+        <propertyGroup name="Other">
+            <property name="useInterfaceForAssociation">
+                <default>true</default>
+                <documentation>When generating a data member for an association, whether to use the actual type or the interface for the type, permitting the use of lazy loading proxies</documentation>
+            </property>
+        </propertyGroup>
+    </properties>
+</namespace>

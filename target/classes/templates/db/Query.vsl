@@ -1,0 +1,26 @@
+// license-header java merge-point
+// Template: Query.vsl
+
+## The concrete data-access data-transfer object (DTO)
+#set ($dto = $class.transformToDto(null))
+package ${dto.packageName}.sql;
+
+
+/**
+ * <p>
+ * A single-object query of a ${dto.name} using its primary key. This class
+ * is the concrete subclass of the generated abstract class AbstractQuery${dto.name}. 
+ * Make any changes to query behavior by overriding methods here rather than 
+ * changing the abstract superclass; AndroMDA will overwrite that class when you
+ * run it but will never overwrite this concrete subclass.
+ * </p>
+* <p>
+ * This class contains the specification of the SQL statement that queries a
+ * single ${dto.name} object from the database.
+ * </p>
+${dto.getDocumentation}
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class Query${dto.name} extends AbstractQuery${dto.name} {
+}

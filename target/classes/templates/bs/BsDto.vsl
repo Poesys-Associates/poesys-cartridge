@@ -1,0 +1,75 @@
+// license-header java merge-point
+// Template: BsDto.vsl
+
+## The concrete business data-transfer object (Bs DTO)
+#set ($dto = $class.transformToDto(null))
+#set ($businessPackageName = $dto.subsystem.businessPackageName)
+## used in catalog.xml for directory name
+#set ($businessPackageDir = ${stringUtils.replace($businessPackageName, ".", "/")})
+package ${businessPackageName};
+
+
+#if (!${dto.abstractClass})
+import com.poesys.db.pk.IPrimaryKey;
+#end
+import com.poesys.bs.delegate.DelegateException;
+
+
+/**
+ * <p>
+ * A business layer data-transfer object for the ${dto.name}. This class
+ * is the concrete subclass of the generated abstract class. Make any changes
+ * to DTO behavior by overriding methods here rather than changing the abstract
+ * superclass; AndroMDA will overwrite that class when you run it but will
+ * never overwrite this concrete subclass.
+ * </p>
+${dto.documentation}
+#if (${dto.abstractClass})
+ * <p>
+ * This class is the business proxy for the abstract class ${dto.name}. When
+ * you instantiate this class, you are proxying a concrete subclass of the
+ * abstract class ${dto.name} that conforms to the I${dto.name} interface.
+ * </p>
+#end
+ * <p>
+ * Stereotypes:
+ * </p>
+ * <ul>
+#foreach ($name in ${dto.stereotypeNames})
+ *     <li>$name</li>
+#end
+ * </ul>
+ * 
+ * @author Poesys/DB Cartridge
+ */
+public class Bs${dto.name} extends ${businessPackageName}.AbstractBs${dto.name} {
+  /**
+   * Create a Bs${dto.name} object from a ${dto.name} object.
+   * 
+   * @param dto the data-access layer ${dto.name} DTO
+   * @throws DelegateException when there is a problem creating the ${dto.name}
+   */
+  public Bs${dto.name}(${dto.packageName}.I${dto.name} dto) throws DelegateException {
+    super(dto);
+  }
+
+#if (!$dto.abstractClass)
+  /**
+   * <p>
+   * Create a Bs${dto.name}. This constructor calls the abstract superclass 
+   * constructor.
+   * </p>
+   *
+   * @param key the primary key of the ${dto.name}
+#foreach ($key in $dto.associatedKeys)
+   * @param ${key.name}Object ${key.paramTag}
+#end
+#foreach ($property in $dto.constructorArgs)
+   * @param ${property.uniqueName} ${property.paramTag}
+#end
+   */
+  public Bs${dto.name}(IPrimaryKey key#foreach ($key in $dto.associatedKeys), ${key.packageName}.I${key.typeName} ${key.name}Object#end#foreach ($property in $dto.constructorArgs), ${property.typeName} ${property.uniqueName}#end) {
+    super(key#foreach ($key in $dto.associatedKeys), ${key.name}Object#end#foreach ($property in $dto.constructorArgs), ${property.uniqueName}#end); 
+  }
+#end
+}
