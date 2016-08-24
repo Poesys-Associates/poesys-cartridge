@@ -200,8 +200,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #end
       ${super.nameAsProperty}Updater.update(connection, dto);
 #end
-      // Update the leaf class.
-      updater.setLeaf(true);
       updater.update(connection, dto);
       // Complete the update by setting the DTO to EXISTING status.
       dto.setExisting();
@@ -279,7 +277,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       // which will allow connecting up linked objects to any of the inserted
       // classes.
       dto.setSuppressNestedInserts(false);
-      inserter.setLeaf(true);
       inserter.insert(connection, dto);
     }
 
@@ -588,8 +585,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #end
 #end
 
-      // Update the object of the leaf class.
-      updater.setLeaf(true);
       updater.update(connection, dtos, dtos.size() / 2);
       // Complete the update by setting the DTOs to EXISTING status.
       for (com.poesys.db.dto.IDbDto dto : dtos) {
@@ -685,7 +680,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       for (com.poesys.db.dto.IDbDto dto : dtos) {
         dto.setSuppressNestedInserts(false);
       }
-      inserter.setLeaf(true);
 #if ($setter.dto.keyType == "IdentityKey" || $setter.dto.inheritedKeyType == "IdentityKey")
       inserter.insert(connection, (java.util.Collection<${setter.className}>)dtos, dtos.size() / 2);
 #else
@@ -804,6 +798,14 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 ## Only create update setters for read/write/mutable nested classes.
 #if ($setter.readWrite && $setter.dto.readWrite && !$setter.dto.immutable)
     postSetters.add(new Update${cappedName}Setter());
+#end
+#end
+
+    // Add query setters for single-object deserialization if no proxy class.
+#foreach($property in $dto.objectProperties)
+#set ($cappedName = ${stringUtils.capitalize($property.uniqueName)})
+#if(!$dto.hasLazilyLoadedMember())
+    readObjectSetters.add(new Query${cappedName}Setter());
 #end
 #end
   }
@@ -1064,15 +1066,25 @@ ${property.documentation}
 #set ($collectionType = "a collection")
 #end
 ## Make the list or collection transient so it won't serialize.
-  // Doesn't serialize; package access allows proxy to set on readObject()
-  transient ${property.typeName} ${propertyName};
+  // Doesn't serialize, set on deserialization of containing object
+  // by readObjectSetter or querySetter
+  private transient ${property.typeName} ${propertyName};
 ## Generate a non-transient list of primary keys for de-serialization.
   // Ordered list of keys of the objects in the ${propertyName} list
   java.util.List<com.poesys.db.pk.IPrimaryKey> ${property.uniqueName}Keys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
 #else
 #set ($methodName = ${property.getterName})
+#if (${property.source} == "AddToOneAssociationRequiredObjectProperties" || ${property.source} == "AddToOneAssociationOptionalObjectProperties")
+## Make the nested object transient so it won't serialize.
+  // Doesn't serialize, set on deserialization of containing object
+  // by readObjectSetter or querySetter
+  private transient ${property.typeName} ${propertyName};
+#else
+## Key field serializes for use during deserialization to query object
+  // Serialized non-IDbDto data member
   private ${property.typeName} ${propertyName};
+#end
 #set ($collectionType = "an object")
 #end
   
@@ -1098,11 +1110,8 @@ ${property.documentation}
   ${property.visibility} void clear${stringUtils.capitalize(${propertyName})}() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
-## Only output a setter if the DTO is read/write and mutable and property is
-## read/write or lazy and mutable.
-#if ((${dto.readWrite} && !${dto.immutable} && !${property.immutable} && ${property.readWrite}) || ${property.lazy})
 
-#if (${property.readWrite})
+## Always output a property setter for use with deserialization, even if the type is read-only.
   /**
    * <p>
    * Set the ${propertyName}.
@@ -1123,7 +1132,6 @@ $property.documentation
    * @throws com.poesys.db.InvalidParametersException when the input ${propertyName} is null
 #end
    */
-#end
 #if (${property.required})
  #if(${property.readWrite}) ${property.visibility}#end void ${property.setterName}(${property.typeName} ${propertyName})
       throws com.poesys.db.InvalidParametersException {
@@ -1137,9 +1145,9 @@ $property.documentation
     
 #end
     this.${propertyName} = ${propertyName};
-## For eager, to-one object properties, add primary key field setting (association end means it's an object property)
-#if (!$property.lazy && !$property.toMany && $property.associationEnd)
-    // Set the IPrimaryKey cache lookup key.
+## For eager, to-one object properties, add primary key field setting (Long/String/etc. means it's a key property, not an object property)
+#if (!$property.lazy && !$property.toMany && !($property.typeName == "java.lang.Long" || $property.typeName == "java.lang.String" || $property.typeName == "java.lang.Boolean" || $property.typeName == "java.math.BigInteger" || $property.typeName == "java.lang.Double" || $property.typeName == "java.sql.Timestamp" || $property.typeName == "java.lang.Integer"))
+    // Set the IPrimaryKey cache lookup key. typeName = $property.typeName
     this.${property.uniqueName}Key = ${property.uniqueName}.getPrimaryKey();
 ## TODO set the primary key fields of the property; currently don't have the dto object for the property, so can't get associated keys
 #end
@@ -1154,7 +1162,6 @@ $property.documentation
 #end
     setChanged();
   }
-#end
 #end
 ## Produce an overriding finalizeInsert method for Identity key classes.
 #if ($dto.keyType == "IdentityKey")

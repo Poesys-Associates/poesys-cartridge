@@ -416,7 +416,7 @@ public abstract class Abstract${dto.name}Delegate
 
   @Override
   public void insert(java.util.List<Bs${dto.name}> list) throws DelegateException {
-    java.sql.Connection c = getConnection();
+    java.sql.Connection c = null;
     
     // Create superclass inserters.
     
@@ -446,6 +446,8 @@ public abstract class Abstract${dto.name}Delegate
     java.util.Collection<${dto.packageName}.I${dto.name}> ${dto.nameAsProperty}Dtos = convertDtoList(list);
 
     try {
+      c = getConnection();
+      
       // Insert the superclass objects from the root down. Suppress nested
       // inserts for the superclasses, wait until the concrete class. Also set 
       // pre-insert suppression off to have the root insert linked, to-one class
@@ -509,7 +511,7 @@ public abstract class Abstract${dto.name}Delegate
 
   @Override
   public void process(java.util.List<Bs${dto.name}> list) throws DelegateException {
-    java.sql.Connection c = getConnection();
+    java.sql.Connection c = null;
 
     // Create the 3 DAOs for inserting, updating, and deleting the concrete object.
     com.poesys.db.dao.insert.IInsertBatch<${dto.packageName}.I${dto.name}> inserter = 
@@ -524,6 +526,7 @@ public abstract class Abstract${dto.name}Delegate
 
     // Create the DAOs for inserting or updating the superclasses.
     try {
+      c = getConnection();
 #set ($root=true)
 #foreach ($super in $dto.superclasses)
       // ${super.name}
@@ -625,28 +628,35 @@ public abstract class Abstract${dto.name}Delegate
 
   @Override
   public void truncateTable(String tableName) throws DelegateException {
-    java.sql.Connection c = getConnection();
+    java.sql.Connection c = null;
     com.poesys.db.dao.ddl.ISql sql = null;
     com.poesys.db.dao.ddl.IExecuteSql executive = null;
 
-    // First truncate any child tables.
-#foreach ($child in $dto.childDtos)
-    sql = new com.poesys.db.dao.ddl.TruncateTableSql("${child.sqlTableName}");
-    executive = new com.poesys.db.dao.ddl.ExecuteSql(sql);
     try {
-      executive.execute(c);
-    } catch (java.sql.SQLException e) {
-      throw new DelegateException(e.getMessage() + ": " + "${child.sqlTableName}", e);
-    }
+      c = getConnection();
+
+      // First truncate any child tables.
+#foreach ($child in $dto.childDtos)
+      sql = new com.poesys.db.dao.ddl.TruncateTableSql("${child.sqlTableName}");
+      executive = new com.poesys.db.dao.ddl.ExecuteSql(sql);
+      
+      try {
+        executive.execute(c);
+      } catch (java.sql.SQLException e) {
+        throw new DelegateException(e.getMessage() + ": " + "${child.sqlTableName}", e);
+      }
 
 #end
-    // Now truncate the current table.
-    sql = new com.poesys.db.dao.ddl.TruncateTableSql(tableName);
-    executive = new com.poesys.db.dao.ddl.ExecuteSql(sql);
-    try {
-      executive.execute(c);
-    } catch (java.sql.SQLException e) {
-      throw new DelegateException(e.getMessage() + ": " + "${dto.sqlTableName}", e);
+      // Now truncate the current table.
+      sql = new com.poesys.db.dao.ddl.TruncateTableSql(tableName);
+      executive = new com.poesys.db.dao.ddl.ExecuteSql(sql);
+      try {
+        executive.execute(c);
+      } catch (java.sql.SQLException e) {
+        throw new DelegateException(e.getMessage() + ": " + "${dto.sqlTableName}", e);
+      }
+    } finally {
+      close(c);
     }
   }
 #end

@@ -37,14 +37,15 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     new com.poesys.db.dto.Deserializer<Abstract${dto.name}Proxy>();
 #if (${dto.objectProperties.size()} > 0)
 
-  // Lazy-loading query setter strategy nested classes for single-object associations
+  // Lazy-loading/deserialization query setter strategy nested classes for 
+  // single-object associations
 #end
   
 #foreach($property in $dto.objectProperties)
 #set ($cappedName = ${stringUtils.capitalize($property.uniqueName)})
 #set ($realName = ${stringUtils.stripStart($property.className, "I")})
-## Only create a lazy object query setter if the property is lazily loaded.
-#if($property.lazy)
+## Lazily loaded properties use query setters in get methods; all object properties
+## use them in deserialization through the read-object setters.
   /** Flag indicating whether the ${property.uniqueName} property has been loaded */
   boolean ${property.uniqueName}Loaded = false;
 
@@ -100,7 +101,6 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     }
   }
 
-#end
 #end
 #set ($comment = "  // Setter strategy nested classes for multiple-object associations")
 #foreach($property in $dto.collectionProperties)
@@ -227,7 +227,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
     @Override
     protected void set(${property.typeName} list) {
-      ((${dto.packageName}.${dto.name})dto).${stringUtils.uncapitalize(${property.queryName})} = list;
+       ${property.setterName}(list);
     }
   }
 #else
@@ -280,7 +280,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
     @Override
     protected void set(${property.typeName} collection) {
-      ((${dto.packageName}.${dto.name})dto).${stringUtils.uncapitalize(${property.queryName})} = collection;
+      ${property.setterName}(collection);
     }
   }
 #end
@@ -328,6 +328,12 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 #foreach($setter in $dto.collectionProperties)
 ## Always create read-object setters.
     readObjectSetters.add(new Read${setter.queryName}Setter());
+#end
+
+    // Add query setters for single-object deserialization.
+#foreach($property in $dto.objectProperties)
+#set ($cappedName = ${stringUtils.capitalize($property.uniqueName)})
+    readObjectSetters.add(new Query${cappedName}Setter());
 #end
   }
 
@@ -557,8 +563,11 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     if (!${propertyName}Loaded && #set($sep="")#foreach($key in $dto.keyProperties)${sep}((I${dto.name})dto).${key.getterName}() != null#set($sep=" && ")#end) {
 #end
       try {
+        // Set as loaded, the setter will process only if this flag is set true.
+        ${propertyName}Loaded = true;
         com.poesys.db.dto.ISet setter = new Query${className}Setter();
-        setter.set(dto.getConnection());
+        // No connection needed for query setter
+        setter.set(null);
       } catch (com.poesys.db.InvalidParametersException e) {
         throw new java.sql.SQLException(e.getMessage());
       }
@@ -701,7 +710,10 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 #if ($property.lazy)
       try {
         com.poesys.db.dto.ISet setter = new Query${cappedName}Setter();
-        setter.set(dto.getConnection());
+        // Set as loaded, the setter will process only if this flag is set true.
+        ${propertyName}Loaded = true;
+        // No connection needed for query setter
+        setter.set(null);
       } catch (com.poesys.db.InvalidParametersException e) {
         throw new java.sql.SQLException(e.getMessage());
       }
@@ -738,23 +750,18 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
       }
     }
   }
-#end
-## Only output a setter if the DTO is read/write and mutable and property is
-## read/write or lazy and mutable. The lazy case produces a package-scoped
-## method usable only within the layer.
-#if ((${dto.readWrite} && !${dto.immutable} && !${property.immutable} && ${property.readWrite}) || ${property.lazy})
 
-#if (${property.lazy})
+#end
   /**
-   * Set the ${propertyName} from a lazy-loading proxy. The IDbDto-
-   * derived interface does not contain this method.
+   * Set the ${propertyName} from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
    *
    * @param ${propertyName} the lazily loaded value to assign
 #if (${property.required})
    * @throws com.poesys.db.InvalidParametersException when the property value is null
 #end
    */
-#end
  #if(${property.readWrite}) ${property.visibility}#end void ${property.setterName}(${property.typeName} ${propertyName})
       #if (${property.required})throws com.poesys.db.InvalidParametersException #end{
     ((${dto.name})dto).${property.setterName}(${propertyName});
@@ -764,7 +771,6 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     ${propertyName}Loaded = true;
 #end
   }
-#end
 #end
 
   public void markChildrenDeleted() throws com.poesys.db.dto.DtoStatusException {
