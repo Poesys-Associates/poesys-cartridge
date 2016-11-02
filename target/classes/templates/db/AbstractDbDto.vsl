@@ -200,8 +200,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #end
       ${super.nameAsProperty}Updater.update(connection, dto);
 #end
-      // Update the leaf class.
-      updater.setLeaf(true);
       updater.update(connection, dto);
       // Complete the update by setting the DTO to EXISTING status.
       dto.setExisting();
@@ -279,7 +277,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       // which will allow connecting up linked objects to any of the inserted
       // classes.
       dto.setSuppressNestedInserts(false);
-      inserter.setLeaf(true);
       inserter.insert(connection, dto);
     }
 
@@ -379,6 +376,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       ${stringUtils.uncapitalize($setter.queryName)} = list;
       // Add the primary keys to the serialized key list if there are any.
       if (${stringUtils.uncapitalize($setter.queryName)} != null) {
+        ${setter.uniqueName}Keys.clear();
         for (com.poesys.db.dto.IDbDto object : ${stringUtils.uncapitalize($setter.queryName)}) {
           ${setter.uniqueName}Keys.add(object.getPrimaryKey());
         }
@@ -589,7 +587,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #end
 
       // Update the object of the leaf class.
-      updater.setLeaf(true);
       updater.update(connection, dtos, dtos.size() / 2);
       // Complete the update by setting the DTOs to EXISTING status.
       for (com.poesys.db.dto.IDbDto dto : dtos) {
@@ -685,7 +682,6 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       for (com.poesys.db.dto.IDbDto dto : dtos) {
         dto.setSuppressNestedInserts(false);
       }
-      inserter.setLeaf(true);
 #if ($setter.dto.keyType == "IdentityKey" || $setter.dto.inheritedKeyType == "IdentityKey")
       inserter.insert(connection, (java.util.Collection<${setter.className}>)dtos, dtos.size() / 2);
 #else
@@ -719,6 +715,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
     }
     ${stringUtils.uncapitalize($setter.queryName)}.add(object);
     // Add the primary key to the primary key array.
+    ${setter.uniqueName}Keys.clear();
     ${setter.uniqueName}Keys.add(object.getPrimaryKey());
   }
    
@@ -1147,6 +1144,7 @@ $property.documentation
     // Add the primary keys of the new collection to the serialized key list.
     ${property.uniqueName}Keys.clear();
     if (${propertyName} != null) {
+      ${property.uniqueName}Keys.clear();
       for (com.poesys.db.dto.IDbDto object : ${propertyName}) {
         ${property.uniqueName}Keys.add(object.getPrimaryKey());
       }

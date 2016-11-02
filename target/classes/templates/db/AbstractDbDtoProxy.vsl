@@ -207,9 +207,18 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
       ${property.typeName} ${stringUtils.uncapitalize(${property.queryName})} = #if ($property.lazy)null#else ((${dto.packageName}.${dto.name})dto).get${property.queryName}()#end;
 #if ($property.lazy)
       try {
-        ${stringUtils.uncapitalize(${property.queryName})} = ((${dto.packageName}.${dto.name})dto).get${property.queryName}();
+        if (${stringUtils.uncapitalize(${property.queryName})}Loaded) {
+          // ${stringUtils.uncapitalize(${property.queryName})} loaded when cached, query
+          try {
+            com.poesys.db.dto.ISet setter = new Query${property.queryName}Setter();
+            // No connection needed for query setter
+            setter.set(null);
+          } catch (com.poesys.db.InvalidParametersException e) {
+            throw new java.sql.SQLException(e.getMessage());
+          }
+        }
       } catch (java.sql.SQLException e) {
-        throw new RuntimeException("SQL Exception on list query: " + e.getMessage(), e);
+        throw new RuntimeException("SQL Exception on collection query: " + e.getMessage(), e);
       }
 #end
       return ${stringUtils.uncapitalize(${property.queryName})};
@@ -259,8 +268,17 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     protected ${property.typeName} getObjectCollection() {
       ${property.typeName} ${stringUtils.uncapitalize(${property.queryName})} = #if ($property.lazy)null#else ((${dto.packageName}.${dto.name})dto).get${property.queryName}()#end;
 #if ($property.lazy)
-      try {
-        ${stringUtils.uncapitalize(${property.queryName})} = ((${dto.packageName}.${dto.name})dto).get${property.queryName}();
+     try {
+        if (${stringUtils.uncapitalize(${property.queryName})}Loaded) {
+          // ${stringUtils.uncapitalize(${property.queryName})} loaded when cached, query
+          try {
+            com.poesys.db.dto.ISet setter = new Query${property.queryName}Setter();
+            // No connection needed for query setter
+            setter.set(null);
+          } catch (com.poesys.db.InvalidParametersException e) {
+            throw new java.sql.SQLException(e.getMessage());
+          }
+        }
       } catch (java.sql.SQLException e) {
         throw new RuntimeException("SQL Exception on collection query: " + e.getMessage(), e);
       }
