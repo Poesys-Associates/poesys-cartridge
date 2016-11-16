@@ -49,6 +49,10 @@ public abstract class Abstract${dto.name}Delegate
 #else
     extends AbstractDataDelegate<Bs${dto.name}, ${dto.packageName}.I${dto.name}, ${dto.keyClass}> {
 #end
+  
+  @SuppressWarnings("unused")
+  private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Abstract${dto.name}Delegate.class);
+  
   /**
    * Create an Abstract${dto.name}Delegate object by supplying the database
    * subsystem in the database.properties file.
@@ -218,6 +222,7 @@ public abstract class Abstract${dto.name}Delegate
         // Done with this connection, close it and return it to the pool.
         if (connection != null) {
           try {
+            logger.debug("Closing connection " + connection);
             connection.close();
           } catch (java.sql.SQLException e) {
             throw new DelegateException(e.getMessage(), e);
