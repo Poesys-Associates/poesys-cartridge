@@ -880,9 +880,8 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #if(!$setter.lazy)
     querySetters.add(new Query${cappedName}Setter());
     // Set the object property primary key with a factory method.
-#set($foreignkey=$setter.dto.getForeignKey($setter.uniqueName))
-    // TODO: fix problem with foreign keys/associated keys VND-168
-    // ${setter.uniqueName}Key = ${setter.dto.packageName}.${stringUtils.capitalize(${setter.dto.subsystem.name})}Factory.get${setter.dto.name}PrimaryKey(#set ($sep = "")#foreach ($key in $foreignKey.keyProperties)${sep}${key.uniqueName}#set ($sep=", ")#end);
+#set($foreignKey=$dto.getForeignKey($setter.uniqueName))
+    ${setter.uniqueName}Key = ${setter.dto.packageName}.${stringUtils.capitalize(${setter.dto.subsystem.name})}Factory.get${setter.dto.name}PrimaryKey(#set ($sep = "")#foreach ($key in $foreignKey.keyProperties)${sep}${key.uniqueName}#set ($sep=", ")#end);
 #end
 ## Only create insert setters for read/write nested classes.
 #if ($setter.readWrite && $setter.readWrite && $setter.dto.readWrite)
