@@ -46,10 +46,17 @@ public abstract class Abstract${sub.className}DelegateFactory {
   private static final java.util.ResourceBundle rb =
     java.util.ResourceBundle.getBundle(PROPERTY_FILE);
 
-  /** Initialize the subsystem name from the property file. */
-  private static final String subsystem = rb.getString("subsystem");
+  /** Resource bundle for database property file */
+  private static final java.util.ResourceBundle dbrb =
+    java.util.ResourceBundle.getBundle("com.poesys.db.database");
 
-  /** Initialize the DBMS type from the property file. */
+  /** Initialize the subsystem name from the subsystem property file. */
+  private static final String subsystem = rb.getString("subsystem");
+  
+  /** Initialize the JDBC DBMS type from the DBMS property file. */
+  protected static final DBMS JDBC_DBMS = DBMS.stringValue(dbrb.getString("${sub.fullyQualifiedName}.dbms"));
+
+  /** Initialize the JNDI DBMS type from the property file. */
   protected static final DBMS JNDI_DBMS = DBMS.stringValue(rb.getString("jndi_dbms"));
   
   /** Initialize the ${sub.memory}#if ($sub.software != "")( ${sub.software}) #end DAO manager for the subsystem. */
@@ -69,7 +76,7 @@ public abstract class Abstract${sub.className}DelegateFactory {
 #end
 
   /**
-   * Get the ${dto.name}Delegate. The file ${className}.properties supplies the
+   * Get the ${dto.name}Delegate. The file ${sub.fullyQualifiedName}_en_US.properties supplies the
    * database subsystem for the delegate to use. The method enables caching and
    * constructs the Delegate with the subsystem from the property file. The
    * database and password are set from the database properties file entries
@@ -80,7 +87,7 @@ public abstract class Abstract${sub.className}DelegateFactory {
    * @return the delegate
    */
   public static ${dto.name}Delegate get${dto.name}Delegate() {
-    return new ${dto.name}Delegate(subsystem);
+    return new ${dto.name}Delegate(subsystem, JDBC_DBMS);
   }
   
   /**

@@ -359,12 +359,12 @@ public abstract class Abstract${sub.className}Factory {
 #elseif ($keyType == "CompositeKey")
     IPrimaryKey ${key.prefix}ParentKey = get${key.parentName}PrimaryKey(#set ($psep = "")#foreach ($property in $key.parentKeyProperties)${psep}${property.uniqueName}#set($psep = ", ")#end);
     if (${key.prefix}ParentKey != null) {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> ${key.prefix}${key.parentName}List =
+      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> ${key.prefix}${key.dto.name}List =
         new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
 #foreach ($attr in $class.subKeyProperties)
       subkeyList.add(new ${attr.pkColType}("${attr.sqlColumnName}", ${attr.uniqueName}));
 #end
-	  IPrimaryKey ${key.prefix}SubKey = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(${key.prefix}${key.parentName}List, "${class.packageName}.${class.name}");
+	  IPrimaryKey ${key.prefix}SubKey = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(${key.prefix}${key.dto.name}List, "${class.packageName}.${class.name}");
       key = com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(${key.prefix}ParentKey, ${key.prefix}SubKey, "${class.packageName}.${class.name}");
     } else {
       noNulls = false;

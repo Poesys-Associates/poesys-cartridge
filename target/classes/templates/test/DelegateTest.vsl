@@ -32,13 +32,13 @@ public class ${dto.name}DelegateTest extends ${businessPackageName}.Abstract${dt
 #else
 
   @Override
-  protected java.util.List<Bs${child.name}> create${child.uniqueName}(${dto.packageName}.I${dto.name} parent, int count)
+  protected java.util.List<${child.subsystem.businessPackageName}.Bs${child.name}> create${child.uniqueName}(${dto.packageName}.I${dto.name} parent, int count)
 #end
       throws com.poesys.bs.delegate.DelegateException, 
              com.poesys.db.InvalidParametersException, 
              com.poesys.db.dto.DtoStatusException {
-    java.util.List<Bs${child.name}> objects = 
-      new java.util.concurrent.CopyOnWriteArrayList<Bs${child.name}>();
+    java.util.List<${child.subsystem.businessPackageName}.Bs${child.name}> objects = 
+      new java.util.concurrent.CopyOnWriteArrayList<${child.subsystem.businessPackageName}.Bs${child.name}>();
     
 #if ($child.keyType == "AssociationKey")
     // Check the input requirements. The input lists must each have at

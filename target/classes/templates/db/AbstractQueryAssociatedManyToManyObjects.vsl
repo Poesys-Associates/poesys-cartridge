@@ -15,8 +15,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.poesys.db.ConstraintViolationException;
-import com.poesys.db.InvalidParametersException;
 import com.poesys.db.dao.query.IParameterizedQuerySql;
 import com.poesys.db.pk.IPrimaryKey;
 
@@ -53,55 +51,70 @@ public abstract class AbstractQuery${queryName}By${query.foreignTypeName}
   private static final String SQL =
     "SELECT ${query.selectList} FROM ${query.manyToManyFromClause} WHERE ${query.manyToManyWhereExpr}";
 
-  public void bindParameters(PreparedStatement stmt, ${query.foreignPackageName}.I${query.foreignTypeName} parameters)
-      throws SQLException {
+  @Override
+  public void bindParameters(PreparedStatement stmt, ${query.foreignPackageName}.I${query.foreignTypeName} parameters) {
     // Set the parameters starting with the first parameter.
     parameters.getPrimaryKey().setParams(stmt, 1);
   }
 
+  @Override
   public String getParameterValues(${query.foreignPackageName}.I${query.foreignTypeName} parameters) {
     // Create the output string with the key parameters.
     return parameters.getPrimaryKey().getValueList();
   }
 
+  @Override
 #if ($dto.abstractClass && !$hasSubclass)
-  public abstract ${query.packageName}.I${query.typeName} getData(ResultSet rs) throws SQLException;
+  public abstract ${query.packageName}.I${query.typeName} getData(ResultSet rs);
 #else
-  public ${query.packageName}.I${query.typeName} getData(ResultSet rs) 
-      throws SQLException, ConstraintViolationException {
+  public ${query.packageName}.I${query.typeName} getData(ResultSet rs) {
 #if ($hasSubclass && $concreteCount>0)
-    // $dto.name has subclasses, so the query returns an object of the actual
-    // type rather than just of type $dto.name. It uses a discriminant expression
-    // that the result set returns to figure out which class to instantiate.
-    
-    // Get the discriminant from the result set.
-    String discriminant = rs.getString("discriminant");
     ${dto.packageName}.I${dto.name} data = null;
+    try {
+      // $dto.name has subclasses, so the query returns an object of the actual
+      // type rather than just of type $dto.name. It uses a discriminant expression
+      // that the result set returns to figure out which class to instantiate.
+    
+      // Get the discriminant from the result set.
+      String discriminant = rs.getString("discriminant");
 #foreach ($subclass in $dto.subclasses)
 #if (!$subclass.abstractClass)
-    // Check for $subclass.name, set return only if not already set
-    if (discriminant != null && discriminant.equals("$subclass.name") && data == null) {
-      // Use the ${subclass.subsystem.name} factory to get the data.
-      IPrimaryKey key = 
-        ${subclass.subsystem.fullyQualifiedName}.${subclass.subsystem.className}Factory.get${subclass.name}PrimaryKey(rs, "");
-      data = ${subclass.subsystem.fullyQualifiedName}.${subclass.subsystem.className}Factory.get${subclass.name}Data(key, rs);
+      // Check for $subclass.name, set return only if not already set
+      if (discriminant != null && discriminant.equals("$subclass.name") && data == null) {
+        // Use the ${subclass.subsystem.name} factory to get the data.
+        IPrimaryKey key = 
+          ${subclass.subsystem.fullyQualifiedName}.${subclass.subsystem.className}Factory.get${subclass.name}PrimaryKey(rs, "");
+        data = ${subclass.subsystem.fullyQualifiedName}.${subclass.subsystem.className}Factory.get${subclass.name}Data(key, rs);
+      }
+#end
+#end
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting data", e);
     }
-#end
-#end
+    
     return data;
 #else
-    IPrimaryKey key = 
-      ${dto.subsystem.fullyQualifiedName}.${dto.subsystem.className}Factory.get${query.typeName}PrimaryKey(rs, "");
-    return ${dto.subsystem.fullyQualifiedName}.${dto.subsystem.className}Factory.get${query.typeName}Data(key, rs);
+    try {
+      IPrimaryKey key = 
+        ${dto.subsystem.fullyQualifiedName}.${dto.subsystem.className}Factory.get${query.typeName}PrimaryKey(rs, "");
+      return ${dto.subsystem.fullyQualifiedName}.${dto.subsystem.className}Factory.get${query.typeName}Data(key, rs);
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting primary key", e);
+    }
 #end
   }
 
 #end
-  public IPrimaryKey getPrimaryKey(ResultSet rs) throws SQLException,
-      InvalidParametersException {
-    return ${subsystemName}.${dto.subsystem.className}Factory.get${query.TypeName}PrimaryKey(rs, "");
+  @Override
+  public IPrimaryKey getPrimaryKey(ResultSet rs) {
+    try {
+      return ${subsystemName}.${dto.subsystem.className}Factory.get${query.TypeName}PrimaryKey(rs, "");
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting primary key", e);
+    }
   }
 
+  @Override
   public String getSql() {
     return SQL;
   }

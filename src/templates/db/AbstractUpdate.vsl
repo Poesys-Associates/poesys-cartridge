@@ -8,7 +8,6 @@ package ${dto.packageName}.sql;
 
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import com.poesys.db.dao.update.IUpdateSql;
 import com.poesys.db.pk.IPrimaryKey;
@@ -35,16 +34,19 @@ public class AbstractUpdate${dto.name} implements IUpdateSql<${dto.packageName}.
   }
 
   @Override
-  public int setParams(PreparedStatement stmt, int index, ${dto.packageName}.I${dto.name} object)
-      throws SQLException {
+  public int setParams(PreparedStatement stmt, int index, ${dto.packageName}.I${dto.name} object) {
 #foreach ($property in $dto.localMembers)
 #if ($property.readWrite)
 #if (${property.supportedJdbcType})
-    ${property.jdbcSetCall};
+    try{
+      ${property.jdbcSetCall};
+    } catch (java.sql.SQLException e) {
+      throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
+    }
 #else
-    // TODO Override this method in the conrete subclass to set the params for the $dto.name
+      // TODO Override this method in the conï¿½rete subclass to set the params for the $dto.name
 #end
-    index++;
+      index++;
 #end
 #end
 #foreach($object in $dto.objectProperties)
@@ -66,8 +68,13 @@ public class AbstractUpdate${dto.name} implements IUpdateSql<${dto.packageName}.
     } else {
       // Set the individual parameters to null with the associated SQL type.
 #foreach ($key in $foreignKey.keyProperties)
-      stmt.setNull(index, java.sql.Types.${key.sqlTypeAnsi});
-      index++;
+      try {
+        stmt.setNull(index, java.sql.Types.${key.sqlTypeAnsi});
+        index++;
+      } catch (java.sql.SQLException e) {
+        throw new com.poesys.db.DbErrorException("SQL error setting parameters to NULL", e);
+      }
+
 #end
     }
 #end
@@ -87,9 +94,33 @@ public class AbstractUpdate${dto.name} implements IUpdateSql<${dto.packageName}.
   }
 
   @Override
-  public int setParams(PreparedStatement stmt, int index, ${dto.packageName}.I${dto.name} object)
-      throws SQLException {
+  public int setParams(PreparedStatement stmt, int index, ${dto.packageName}.I${dto.name} object) {
       return index;
   }
 #end
+
+  @Override
+  public String getParamString(${dto.packageName}.I${dto.name} dto) {
+    StringBuilder builder = new StringBuilder("Parameters: \"");
+#set($sep=false)
+#set($endStatement=false)
+#foreach ($property in $dto.localMembers)
+#if ($property.readWrite)
+#if (${property.supportedJdbcType})
+#if ($sep)
+    builder.append("\", ");
+#end
+    builder.append(dto.${property.getterName}());
+#else
+    // TODO Override this method in the concrete subclass to set the params for the $dto.name
+#end
+#end
+#set($sep=true)
+#set($endStatement=true)
+#end
+#if ($endStatement)
+    builder.append("\"");
+#end
+    return builder.toString();
+  }
 }

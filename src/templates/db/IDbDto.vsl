@@ -11,7 +11,6 @@ import com.poesys.db.dto.IDbDto;
 #if (${dto.superclass})
 import ${dto.superpackage}.I${dto.superclass};
 #else
-import com.poesys.db.dto.DtoStatusException;
 import com.poesys.db.pk.IPrimaryKey;
 #end
 
@@ -48,10 +47,8 @@ public interface I${dto.name} extends IDbDto#if (${dto.superclass}), I${dto.supe
    * <p>
    * Mark any children of this DTO as deleted.
    * </p>
-   *
-   * @throws DtoStatusException when the child cannot be set to DELETED status
    */
-  void markChildrenDeleted() throws DtoStatusException;
+  void markChildrenDeleted();
 
   IPrimaryKey getPrimaryKey();
 #end
@@ -83,12 +80,8 @@ ${property.getDocumentation()}
 #end
    * </p>
    * @return a ${property.typeName} ${propertyName}
-#if ($property.lazy)
-   * @throws java.sql.SQLException when the method can't get a SQL connection to 
-   *                               load the property lazily
-#end
    */
-  ${property.visibility} ${property.typeName} ${getterMethod}()#if ($property.lazy) throws java.sql.SQLException#end;
+  ${property.visibility} ${property.typeName} ${getterMethod}();
 ## Only output a clearer if the property is lazily loaded.
 #if ($property.lazy)
 
@@ -118,7 +111,7 @@ ${property.getDocumentation()}
    * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
 ## TODO Use ${property.visibility} after fixing the bug that doesn't set that attribute of the property.
-  public void ${property.setterName}(${property.typeName} ${propertyName}) throws com.poesys.db.dto.DtoStatusException#if (${property.required}), com.poesys.db.InvalidParametersException#end;
+  public void ${property.setterName}(${property.typeName} ${propertyName}) #if (${property.required})throws com.poesys.db.InvalidParametersException#end;
 
 #end
 #end
@@ -131,12 +124,8 @@ ${property.getDocumentation()}
    * Add a ${property.dto.name} object to the ${stringUtils.uncapitalize(${property.queryName})} collection.
    *
    * @param object the object to add to the collection
-#if ($property.lazy)
-   * @throws java.sql.SQLException when there is a problem lazily loading the 
-   *                               collection
-#end
    */
-  ${property.visibility} void add${property.queryName}${property.dto.name}(${property.className} object)#if ($property.lazy) throws java.sql.SQLException#end;
+  ${property.visibility} void add${property.queryName}${property.dto.name}(${property.className} object);
 #end
 #end
 }

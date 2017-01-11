@@ -22,7 +22,13 @@ public class AbstractDelete${dto.name} extends AbstractDeleteSql<${dto.packageNa
   private static final String SQL =
     "DELETE FROM ${dto.sqlTableName} WHERE ";
 
+  @Override
   public String getSql(IPrimaryKey key) {
     return super.getSql(key, SQL);
+  }
+
+  @Override
+  public String getParamString(${dto.packageName}.I${dto.name} dto) {
+    return null;
   }
 }

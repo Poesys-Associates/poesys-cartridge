@@ -13,8 +13,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.poesys.db.ConstraintViolationException;
-import com.poesys.db.InvalidParametersException;
 import com.poesys.db.dao.query.IParameterizedQuerySql;
 import com.poesys.db.pk.IPrimaryKey;
 
@@ -40,33 +38,43 @@ public abstract class AbstractQuery${queryName}By${query.foreignTypeName}
   private static final String SQL =
     "SELECT ${query.selectList} FROM ${query.fromClause} WHERE ${query.whereExpr}";
 
-  public void bindParameters(PreparedStatement stmt, ${query.foreignPackageName}.I${query.foreignTypeName} parameters)
-      throws SQLException {
+  @Override
+  public void bindParameters(PreparedStatement stmt, ${query.foreignPackageName}.I${query.foreignTypeName} parameters) {
     // Set the parameters starting with the first parameter.
     parameters.getPrimaryKey().setParams(stmt, 1);
   }
 
+  @Override
   public String getParameterValues(${query.foreignPackageName}.I${query.foreignTypeName} parameters) {
     // Create the output string with the key parameters.
     return parameters.getPrimaryKey().getValueList();
   }
 
-  public ${query.packageName}.I${query.typeName} getData(ResultSet rs) throws SQLException,
-      ConstraintViolationException {
+  @Override
+  public ${query.packageName}.I${query.typeName} getData(ResultSet rs) {
 #if (${query.associatedDto.abstractClass})
     // ${query.associatedDto.name} is an abstract class, cannot query the object data directly
     // TODO Return null for now
     return null;
 #else
-    return ${query.linksSubsystem.fullyQualifiedName}.${query.linksSubsystem.className}Factory.get${query.typeName}Data(getPrimaryKey(rs), rs);
+    try {
+      return ${query.linksSubsystem.fullyQualifiedName}.${query.linksSubsystem.className}Factory.get${query.typeName}Data(getPrimaryKey(rs), rs);
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting data", e);
+    }
 #end
   }
 
-  public IPrimaryKey getPrimaryKey(ResultSet rs) throws SQLException,
-      InvalidParametersException {
-    return ${query.linksSubsystem.fullyQualifiedName}.${query.linksSubsystem.className}Factory.get${query.TypeName}PrimaryKey(rs, "");
+  @Override
+  public IPrimaryKey getPrimaryKey(ResultSet rs) {
+    try {
+      return ${query.linksSubsystem.fullyQualifiedName}.${query.linksSubsystem.className}Factory.get${query.TypeName}PrimaryKey(rs, "");
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting primary key", e);
+    }
   }
 
+  @Override
   public String getSql() {
     return SQL;
   }

@@ -11,6 +11,7 @@
 package ${businessPackageName};
 
 
+import com.poesys.db.connection.IConnectionFactory.DBMS;
 #if (!$dto.readWrite)
 import com.poesys.bs.delegate.AbstractReadOnlyDataDelegate;
 #elseif ($dto.keyType == "IdentityKey")
@@ -19,7 +20,6 @@ import com.poesys.bs.delegate.AbstractIdentityDataDelegate;
 import com.poesys.bs.delegate.AbstractDataDelegate;
 #end
 import com.poesys.bs.delegate.DelegateException;
-import com.poesys.db.connection.IConnectionFactory.DBMS;
 #if ($dto.readWrite)
 import com.poesys.db.dao.insert.IInsertSql;
 import com.poesys.db.dao.update.IUpdateSql;
@@ -183,26 +183,20 @@ public abstract class Abstract${dto.name}Delegate
 
     // Generate a new ${dto.name} id if the input key is null.
     if ($keyVar == null) {
-      java.sql.Connection connection = null;
       try {
-        connection = getConnection();
-        if (connection == null) {
-          throw new DelegateException("Could not get database connection to generate sequence");
-        }
-        
         if (dbms.equals(DBMS.MYSQL) || dbms.equals(DBMS.JNDI_MYSQL)) {
           key =
-            com.poesys.db.pk.PrimaryKeyFactory.createMySqlSequenceKey(connection,
-                                                                      "${dto.sequenceName}",
+            com.poesys.db.pk.PrimaryKeyFactory.createMySqlSequenceKey("${dto.sequenceName}",
                                                                       "$keyCol",
-                                                                      "${dto.packageName}.${dto.name}");
+                                                                      "${dto.packageName}.${dto.name}",
+                                                                      "${subsystem.fullyQualifiedName}");
         } else if (dbms.equals(DBMS.ORACLE) || dbms.equals(DBMS.JNDI_ORACLE)) {
           // Create key with sequence ${dto.sequenceName}
           key =
-            com.poesys.db.pk.PrimaryKeyFactory.createOracleSequenceKey(connection,
-                                                                       "${dto.sequenceName}",
+            com.poesys.db.pk.PrimaryKeyFactory.createOracleSequenceKey("${dto.sequenceName}",
                                                                        "$keyCol",
-                                                                       "${dto.packageName}.${dto.name}");
+                                                                       "${dto.packageName}.${dto.name}",
+                                                                      "${subsystem.fullyQualifiedName}");
         } else {
           throw new DelegateException("com.poesys.bs.delegate.msg.noDbms");
         }
@@ -216,18 +210,6 @@ public abstract class Abstract${dto.name}Delegate
         Object[] args = e.getParameters().toArray();
         String message = com.poesys.db.Message.getMessage(e.getMessage(), args);
         throw new DelegateException(message, e);
-      } catch (java.sql.SQLException e) {
-        throw new DelegateException(e.getMessage(), e);
-      } finally {
-        // Done with this connection, close it and return it to the pool.
-        if (connection != null) {
-          try {
-            logger.debug("Closing connection " + connection);
-            connection.close();
-          } catch (java.sql.SQLException e) {
-            throw new DelegateException(e.getMessage(), e);
-          }
-        }
       }
     } else {
       key = com.poesys.db.pk.PrimaryKeyFactory.createSequenceKey("$keyCol", $keyVar, "${dto.packageName}.${dto.name}");
@@ -421,8 +403,6 @@ public abstract class Abstract${dto.name}Delegate
 
   @Override
   public void insert(java.util.List<Bs${dto.name}> list) throws DelegateException {
-    java.sql.Connection c = null;
-    
     // Create superclass inserters.
     
 #foreach ($super in $dto.superclasses)
@@ -451,8 +431,6 @@ public abstract class Abstract${dto.name}Delegate
     java.util.Collection<${dto.packageName}.I${dto.name}> ${dto.nameAsProperty}Dtos = convertDtoList(list);
 
     try {
-      c = getConnection();
-      
       // Insert the superclass objects from the root down. Suppress nested
       // inserts for the superclasses, wait until the concrete class. Also set 
       // pre-insert suppression off to have the root insert linked, to-one class
@@ -508,16 +486,12 @@ public abstract class Abstract${dto.name}Delegate
     } catch (com.poesys.db.dto.DtoStatusException e) {
       rollBack(c, e.getMessage(), e);
     } finally {
-      commit(c);
-      close(c);
       finalizeStatus(${dto.nameAsProperty}Dtos, com.poesys.db.dto.IDbDto.Status.EXISTING);
     }
   }
 
   @Override
   public void process(java.util.List<Bs${dto.name}> list) throws DelegateException {
-    java.sql.Connection c = null;
-
     // Create the 3 DAOs for inserting, updating, and deleting the concrete object.
     com.poesys.db.dao.insert.IInsertBatch<${dto.packageName}.I${dto.name}> inserter = 
       factory.getInsertBatch(getInsertSql());
@@ -531,7 +505,6 @@ public abstract class Abstract${dto.name}Delegate
 
     // Create the DAOs for inserting or updating the superclasses.
     try {
-      c = getConnection();
 #set ($root=true)
 #foreach ($super in $dto.superclasses)
       // ${super.name}
@@ -621,8 +594,6 @@ public abstract class Abstract${dto.name}Delegate
       String message = com.poesys.db.Message.getMessage(e.getMessage(), null);
       rollBack(c, message, e);
     } finally {
-      commit(c);
-      close(c);
       updateChangedToExisting(dtos);
       finalizeStatus(dtos, com.poesys.db.dto.IDbDto.Status.EXISTING);
       finalizeStatus(dtos, com.poesys.db.dto.IDbDto.Status.DELETED);
@@ -633,35 +604,23 @@ public abstract class Abstract${dto.name}Delegate
 
   @Override
   public void truncateTable(String tableName) throws DelegateException {
-    java.sql.Connection c = null;
     com.poesys.db.dao.ddl.ISql sql = null;
     com.poesys.db.dao.ddl.IExecuteSql executive = null;
 
     try {
-      c = getConnection();
-
       // First truncate any child tables.
 #foreach ($child in $dto.childDtos)
       sql = new com.poesys.db.dao.ddl.TruncateTableSql("${child.sqlTableName}");
-      executive = new com.poesys.db.dao.ddl.ExecuteSql(sql);
-      
-      try {
-        executive.execute(c);
-      } catch (java.sql.SQLException e) {
-        throw new DelegateException(e.getMessage() + ": " + "${child.sqlTableName}", e);
-      }
+      executive = new com.poesys.db.dao.ddl.ExecuteSql(sql, subsystem);
+      executive.execute();
 
 #end
       // Now truncate the current table.
       sql = new com.poesys.db.dao.ddl.TruncateTableSql(tableName);
-      executive = new com.poesys.db.dao.ddl.ExecuteSql(sql);
-      try {
-        executive.execute(c);
-      } catch (java.sql.SQLException e) {
-        throw new DelegateException(e.getMessage() + ": " + "${dto.sqlTableName}", e);
-      }
-    } finally {
-      close(c);
+      executive = new com.poesys.db.dao.ddl.ExecuteSql(sql, subsystem);
+      executive.execute();
+    } catch (Throwable e) {
+      throw new DelegateException("Error truncating table " + tableName, e);
     }
   }
 #end

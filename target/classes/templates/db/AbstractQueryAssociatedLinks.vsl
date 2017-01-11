@@ -14,8 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.poesys.db.ConstraintViolationException;
-import com.poesys.db.InvalidParametersException;
 import com.poesys.db.dao.query.IParameterizedQuerySql;
 import com.poesys.db.pk.IPrimaryKey;
 
@@ -39,8 +37,7 @@ public abstract class AbstractQuery${queryName}By${query.typeName}
   private static final String SQL =
     "SELECT ${query.associationDto.sqlSelectList} FROM ${query.linksFromClause} WHERE ${query.linksWhereExpr}";
 
-  public void bindParameters(PreparedStatement stmt, ${query.packageName}.I${query.typeName} parameters)
-      throws SQLException {
+  public void bindParameters(PreparedStatement stmt, ${query.packageName}.I${query.typeName} parameters) {
     // Set the parameters starting with the first parameter.
     parameters.getPrimaryKey().setParams(stmt, 1);
   }
@@ -50,14 +47,20 @@ public abstract class AbstractQuery${queryName}By${query.typeName}
     return parameters.getPrimaryKey().getValueList();
   }
 
-  public ${query.associationPackageName}.I${query.associationTypeName} getData(ResultSet rs) throws SQLException,
-      ConstraintViolationException {
-    return ${subsystem.className}Factory.get${query.associationTypeName}Data(getPrimaryKey(rs), rs);
+  public ${query.associationPackageName}.I${query.associationTypeName} getData(ResultSet rs) {
+    try {
+      return ${subsystem.className}Factory.get${query.associationTypeName}Data(getPrimaryKey(rs), rs);
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting data", e);
+    }
   }
 
-  public IPrimaryKey getPrimaryKey(ResultSet rs) throws SQLException,
-      InvalidParametersException {
-    return ${subsystem.className}Factory.get${query.associationTypeName}PrimaryKey(rs, "");
+  public IPrimaryKey getPrimaryKey(ResultSet rs) {
+    try {
+      return ${subsystem.className}Factory.get${query.associationTypeName}PrimaryKey(rs, "");
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      throw new com.poesys.db.DbErrorException("Error getting primary key", e);
+    }
   }
 
   public String getSql() {

@@ -12,9 +12,7 @@ package ${businessPackageName};
 
 
 import static org.junit.Assert.assertTrue;
-import org.junit.After;
 
-import com.poesys.db.connection.ConnectionException;
 #set ($addFail = false)
 #foreach ($var in $dto.objectProperties)
 #if ($var.lazy && !$var.required)
@@ -992,6 +990,7 @@ public abstract class Abstract${dto.name}DelegateTest {
     Bs${dto.name} insertedObject = objects.get(0);
     assertTrue("No inserted object to delete", insertedObject != null);
     
+    insertedObject.delete();
     delegate.delete(insertedObject);
     assertTrue("object not deleted", !exists(key));
 #if ($dto.readWrite)
@@ -1175,15 +1174,5 @@ public abstract class Abstract${dto.name}DelegateTest {
    */
   protected String getSubsystem() {
     return subsystem;
-  }
-  
-  /**
-   * Flush all resources associated with connections.
-   * 
-   * @throws ConnectionException when there is a problem flushing resources
-   */
-  @After
-  public void tearDown() throws ConnectionException {
-    delegate.flush();
   }
 }

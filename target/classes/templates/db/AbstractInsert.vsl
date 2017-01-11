@@ -9,7 +9,6 @@ package ${dto.packageName}.sql;
 
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import com.poesys.db.dao.insert.IInsertSql;
 import com.poesys.db.pk.IPrimaryKey;
@@ -25,17 +24,24 @@ public class AbstractInsert${dto.name} implements IInsertSql<${dto.packageName}.
   private static final String SQL =
     "INSERT INTO ${dto.sqlTableName} (${dto.sqlInsertList}) VALUES (#foreach ($property in $dto.insertProperties)${sep}?#set($sep=",")#end)";
 
+  @Override
   public String getSql(IPrimaryKey key) {
     return SQL;
   }
 
-  public void setParams(PreparedStatement stmt, int index, ${dto.packageName}.I${dto.name} object)
-      throws SQLException {
+  @Override
+  public void setParams(PreparedStatement stmt, int index, 
+                        ${dto.packageName}.I${dto.name} object) {
 #foreach ($property in $dto.insertProperties)
 ## Exclude any natural key columns, already set
 #if (!$property.key)
 #if (${property.supportedJdbcType})
-    ${property.jdbcSetCall};
+    try {
+      ${property.jdbcSetCall};
+    } catch (java.sql.SQLException e) {
+      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
+      throw new com.poesys.db.DbErrorException(message, e);
+    }
 #else
     // Source ${property.source}
     // TODO Unsupported JDBC type ${property.typeName} for ${dto.name}.${property.uniqueName}; override this method in the concrete subclass to set the params for the $dto.name

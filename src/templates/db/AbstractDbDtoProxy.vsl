@@ -44,11 +44,12 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 #foreach($property in $dto.objectProperties)
 #set ($cappedName = ${stringUtils.capitalize($property.uniqueName)})
 #set ($realName = ${stringUtils.stripStart($property.className, "I")})
-## Lazily loaded properties use query setters in get methods; all object properties
-## use them in deserialization through the read-object setters.
+## Lazily loaded properties use query setters in get methods
+#if ($property.lazy)
   /** Flag indicating whether the ${property.uniqueName} property has been loaded */
-  boolean ${property.uniqueName}Loaded = false;
-
+  private transient boolean ${property.uniqueName}Loaded = false;
+  
+#end
   /**
    * Query setter for lazily querying nested ${property.uniqueName} object
    * (object property)
@@ -88,16 +89,19 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     }
 
     @Override
-    protected void set(${property.className} dto)
-         throws com.poesys.db.InvalidParametersException, 
-                com.poesys.db.dto.DtoStatusException {
+    protected void set(${property.className} dto) {
       ${property.setterName}(dto);
     }
 
     @Override
     public boolean isSet() {
+#if ($property.lazy)
       // Set if proxy has loaded ${property.uniqueName}
       return ${property.uniqueName}Loaded;
+#else
+      // Set if proxied DTO ${property.uniqueName} exists
+      return (((${dto.name})dto).${property.getterName}() != null);
+#end
     }
   }
 
@@ -111,7 +115,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
 #set($comment = "")
   /** Flag indicating whether the ${stringUtils.uncapitalize(${property.queryName})} property has been loaded */
-  boolean ${stringUtils.uncapitalize(${property.queryName})}Loaded = false;
+  transient boolean ${stringUtils.uncapitalize(${property.queryName})}Loaded = false;
 
   /**
    * Query setter for lazily querying nested ${stringUtils.uncapitalize(${property.queryName})} collection
@@ -171,12 +175,13 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
     @Override
     public boolean isSet() {
-      // Set if proxy has loaded ${stringUtils.uncapitalize(${property.queryName})}
+      // Set if proxy has lazily loaded ${stringUtils.uncapitalize(${property.queryName})}
       return ${stringUtils.uncapitalize(${property.queryName})}Loaded;
     }
   }
 #end
 
+#if (!$property.lazy)
 #if ($property.ordered)
 
   /**
@@ -205,22 +210,6 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     @Override
     protected ${property.typeName} getObjectList() {
       ${property.typeName} ${stringUtils.uncapitalize(${property.queryName})} = #if ($property.lazy)null#else ((${dto.packageName}.${dto.name})dto).get${property.queryName}()#end;
-#if ($property.lazy)
-      try {
-        if (${stringUtils.uncapitalize(${property.queryName})}Loaded) {
-          // ${stringUtils.uncapitalize(${property.queryName})} loaded when cached, query
-          try {
-            com.poesys.db.dto.ISet setter = new Query${property.queryName}Setter();
-            // No connection needed for query setter
-            setter.set(null);
-          } catch (com.poesys.db.InvalidParametersException e) {
-            throw new java.sql.SQLException(e.getMessage());
-          }
-        }
-      } catch (java.sql.SQLException e) {
-        throw new RuntimeException("SQL Exception on collection query: " + e.getMessage(), e);
-      }
-#end
       return ${stringUtils.uncapitalize(${property.queryName})};
     }
 
@@ -231,7 +220,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
     @Override
     protected com.poesys.db.dao.query.IKeyQuerySql<${property.className}> getSql() {
-      return new ${dto.packageName}.sql.Query${property.dto.name}();
+      return new ${property.dto.packageName}.sql.Query${property.dto.name}();
     }
 
     @Override
@@ -267,22 +256,6 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     @Override
     protected ${property.typeName} getObjectCollection() {
       ${property.typeName} ${stringUtils.uncapitalize(${property.queryName})} = #if ($property.lazy)null#else ((${dto.packageName}.${dto.name})dto).get${property.queryName}()#end;
-#if ($property.lazy)
-     try {
-        if (${stringUtils.uncapitalize(${property.queryName})}Loaded) {
-          // ${stringUtils.uncapitalize(${property.queryName})} loaded when cached, query
-          try {
-            com.poesys.db.dto.ISet setter = new Query${property.queryName}Setter();
-            // No connection needed for query setter
-            setter.set(null);
-          } catch (com.poesys.db.InvalidParametersException e) {
-            throw new java.sql.SQLException(e.getMessage());
-          }
-        }
-      } catch (java.sql.SQLException e) {
-        throw new RuntimeException("SQL Exception on collection query: " + e.getMessage(), e);
-      }
-#end
       return ${stringUtils.uncapitalize(${property.queryName})};
     }
 
@@ -293,7 +266,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
     @Override
     protected com.poesys.db.dao.query.IKeyQuerySql<${property.className}> getSql() {
-      return new ${dto.packageName}.sql.Query${property.dto.name}();
+      return new ${property.dto.packageName}.sql.Query${property.dto.name}();
     }
 
     @Override
@@ -301,6 +274,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
       ${property.setterName}(collection);
     }
   }
+#end
 #end
 ## Only create add methods for read/write/mutable DTOs.
 ## Property is not relevant here, all add does is change the link, not the object.
@@ -315,11 +289,8 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
    * Source: $property.source
    * 
    * @param object the ${property.className} object to add to the collection
-#if ($property.lazy)
-   * @throws java.sql.SQLException when there is a database problem
-#end
    */
-  ${property.visibility} void add${property.queryName}${property.dto.name}(${property.className} object)#if ($property.lazy)throws java.sql.SQLException#end {
+  ${property.visibility} void add${property.queryName}${property.dto.name}(${property.className} object) {
 #if ($property.lazy)
     // Collection is lazily loaded, check and load if necessary.
     if (!${stringUtils.uncapitalize(${property.queryName})}Loaded) {
@@ -344,8 +315,10 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     readObjectSetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
 #end
 #foreach($setter in $dto.collectionProperties)
-## Always create read-object setters.
+## Create only those setters that apply to active fields.
+#if (!$setter.lazy)
     readObjectSetters.add(new Read${setter.queryName}Setter());
+#end
 #end
 
     // Add query setters for single-object deserialization.
@@ -400,7 +373,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 #if ($property.lazy)
 
   /** Flag indicating whether the ${propertyName} property has been loaded */
-  boolean ${propertyName}Loaded = false;
+  transient boolean ${propertyName}Loaded = false;
 
 ## First process collections.
 #if ($property.toMany)
@@ -464,8 +437,13 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 
     @Override
     public boolean isSet() {
-      // Set if proxy has loaded ${propertyName}
+#if ($property.lazy)
+      // Set if proxy has lazily loaded ${propertyName}
       return ${propertyName}Loaded;
+#else
+      // Set if the proxied DTO ${propertyName} exists
+      return (((${dto.name})dto).${property.getterName}() != null);
+#end
     }
   }
 ## Only create add methods for read/write/mutable DTOs.
@@ -481,11 +459,8 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
    * Source: $property.source
    * 
    * @param object the ${property.className} object to add to the collection
-#if ($property.lazy)
-   * @throws java.sql.SQLException when there is a database problem
-#end
    */
-  ${property.visibility} void add${property.queryName}${property.dto.name}(${property.className} object)#if ($property.lazy)throws java.sql.SQLException#end {
+  ${property.visibility} void add${property.queryName}${property.dto.name}(${property.className} object) {
 #if ($property.lazy)
     // Collection is lazily loaded, check and load if necessary.
     if (!${propertyName}Loaded) {
@@ -540,16 +515,19 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     }
 
     @Override
-    protected void set(${property.className} dto)
-         throws com.poesys.db.InvalidParametersException, 
-                com.poesys.db.dto.DtoStatusException {
+    protected void set(${property.className} dto) {
       ${property.setterName}(dto);
     }
 
     @Override
     public boolean isSet() {
-      // Set if proxy has loaded ${propertyName}
+#if ($property.lazy)
+      // Set if proxy has lazily loaded ${propertyName}
       return ${propertyName}Loaded;
+#else
+      // Set if the proxied DTO ${propertyName} exists
+      return (((${dto.name})dto).${property.getterName}() != null);
+#end
     }
   }
 #end
@@ -564,9 +542,8 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
    * ${propertyName}Loaded association if not already in memory
    * 
    * @return a $collectionType of ${property.className} objects
-   * @throws java.sql.SQLException when there is a database problem
    */
-  ${property.visibility} ${property.typeName} ${getterMethod}() throws java.sql.SQLException {
+  ${property.visibility} ${property.typeName} ${getterMethod}() {
 ## Get the DTO that owns the property (the one from which the current DTO
 ## inherits the property) and get the foreign key by name.
 #set($fkey=$property.owner.getForeignKey($property.uniqueName))
@@ -580,15 +557,10 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     // if not loaded and the inherited key is not null.
     if (!${propertyName}Loaded && #set($sep="")#foreach($key in $dto.keyProperties)${sep}((I${dto.name})dto).${key.getterName}() != null#set($sep=" && ")#end) {
 #end
-      try {
-        // Set as loaded, the setter will process only if this flag is set true.
-        ${propertyName}Loaded = true;
-        com.poesys.db.dto.ISet setter = new Query${className}Setter();
-        // No connection needed for query setter
-        setter.set(null);
-      } catch (com.poesys.db.InvalidParametersException e) {
-        throw new java.sql.SQLException(e.getMessage());
-      }
+      com.poesys.db.dto.ISet setter = new Query${className}Setter();
+      setter.set();
+      // Mark the field as loaded once the query setter has run.
+      ${propertyName}Loaded = true;
     }
     return ((I${dto.name})dto).${getterMethod}();
   }
@@ -663,11 +635,8 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
    * Source: $property.source
    * 
    * @param object the ${property.className} object to add to the collection
-#if ($property.lazy)
-   * @throws java.sql.SQLException when there is a database problem
-#end
    */
-  ${property.visibility} void add${className}${property.dto.name}(${property.className} object)#if ($property.lazy)throws java.sql.SQLException#end {
+  ${property.visibility} void add${className}${property.dto.name}(${property.className} object) {
 #if ($property.lazy)
     // Collection is lazily loaded, check and load if necessary.
     if (!${propertyName}Loaded) {
@@ -712,11 +681,8 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
    * Lazy: $property.lazy
    * 
    * @return a ${property.typeName}
-#if ($property.lazy)
-   * @throws java.sql.SQLException when there is a database problem
-#end
    */
-  ${property.visibility} ${property.typeName} ${methodName}() #if ($property.lazy)throws java.sql.SQLException #end{
+  ${property.visibility} ${property.typeName} ${methodName}() {
 #if ($property.lazy && $dto.getForeignKey($property.uniqueName))
 #set($foreignkey=$dto.getForeignKey($property.uniqueName))
     // Lazy-load the local property ${propertyName} if not loaded and the key $foreignkey.name is not null.
@@ -726,15 +692,10 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
     if (!${propertyName}Loaded) {
 #end
 #if ($property.lazy)
-      try {
-        com.poesys.db.dto.ISet setter = new Query${cappedName}Setter();
-        // Set as loaded, the setter will process only if this flag is set true.
-        ${propertyName}Loaded = true;
-        // No connection needed for query setter
-        setter.set(null);
-      } catch (com.poesys.db.InvalidParametersException e) {
-        throw new java.sql.SQLException(e.getMessage());
-      }
+      com.poesys.db.dto.ISet setter = new Query${cappedName}Setter();
+      setter.set();
+      // Mark the field as loaded once the query setter has run.
+      ${propertyName}Loaded = true;
     }#if ($property.required && $dto.getForeignKey($property.uniqueName)) else if (!${propertyName}Loaded) {
       // ${foreignkey.name} key attribute is null but is required
       java.util.List<String> args = new java.util.ArrayList<String>(1);
@@ -749,6 +710,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
 #end
     return ((${dto.name})dto).${methodName}();
   }
+
 ## Only output a clearer if the property is lazily loaded.
 #if ($property.lazy)
 
@@ -791,7 +753,7 @@ public abstract class Abstract${dto.name}Proxy extends AbstractLazyLoadingDtoPro
   }
 #end
 
-  public void markChildrenDeleted() throws com.poesys.db.dto.DtoStatusException {
+  public void markChildrenDeleted() {
   	((${dto.name})dto).markChildrenDeleted();
   }
 }

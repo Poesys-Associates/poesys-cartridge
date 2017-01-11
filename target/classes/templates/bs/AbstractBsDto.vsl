@@ -524,6 +524,10 @@ ${property.getDocumentation()}
 #end
    */
   ${property.visibility} void add${property.queryName}${property.dto.name}(${property.bsTypeName} object)#if ($property.lazy) throws java.sql.SQLException#end {
+    if (object == null) {
+      throw new com.poesys.db.InvalidParametersException(com.poesys.db.Message.getMessage("com.poesys.db.dao.msg.no_dto", null));
+    }
+    
     dto.add${property.queryName}${property.dto.name}(object.toDto());
   }
 #end

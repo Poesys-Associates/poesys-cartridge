@@ -10,6 +10,8 @@ package ${dto.packageName}.sql;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+
 import com.poesys.db.dao.query.IKeyQuerySql;
 import com.poesys.db.pk.IPrimaryKey;
 
@@ -31,44 +33,52 @@ import com.poesys.db.pk.IPrimaryKey;
  * @author Poesys/DB Cartridge
  */
 public abstract class AbstractQuery${dto.name} implements IKeyQuerySql<${dto.packageName}.I${dto.name}> {
+  private static final Logger logger = Logger.getLogger(AbstractQuery${dto.name}.class);
   /** SQL query statement for ${dto.sqlTableName} */
   private static final String SQL =
     "SELECT ${dto.sqlSelectList} FROM ${dto.sqlFromClause} WHERE ";
 
 #if ($dto.abstractClass && !$hasSubclass)
+  @Override
   public abstract ${dto.packageName}.I${dto.name} getData(IPrimaryKey key, ResultSet rs) throws SQLException;
 #else
-  public ${dto.packageName}.I${dto.name} getData(IPrimaryKey key, ResultSet rs) throws SQLException {
+  public ${dto.packageName}.I${dto.name} getData(IPrimaryKey key, ResultSet rs) {
+    try {
 #if ($hasSubclass && $concreteCount>0)
-    // $dto.name has concrete subclasses, so the query returns an object of the actual
-    // type rather than just of type $dto.name. It uses a discriminant expression
-    // that the result set returns to figure out which class to instantiate.
+      // $dto.name has concrete subclasses, so the query returns an object of the actual
+      // type rather than just of type $dto.name. It uses a discriminant expression
+      // that the result set returns to figure out which class to instantiate.
     
-    // Get the discriminant from the result set.
-    String discriminant = rs.getString("discriminant");
+      // Get the discriminant from the result set.
+      String discriminant = rs.getString("discriminant");
     
-    // Check whether the discriminant is null and throw exception.
-    if (discriminant == null) {
-      throw new com.poesys.bs.delegate.DelegateException("Missing subclass for queried object of superclass ${dto.packageName}.${dto.name}");
-    }
+      // Check whether the discriminant is null and throw exception.
+      if (discriminant == null) {
+        throw new com.poesys.bs.delegate.DelegateException("Missing subclass for queried object of superclass ${dto.packageName}.${dto.name}");
+      }
     
-    ${dto.packageName}.I${dto.name} data = null;
+      ${dto.packageName}.I${dto.name} data = null;
 #foreach ($subclass in $dto.subclasses)
 #if (!$subclass.abstractClass)
-    // Check for $subclass.name, set return only if not already set
-    if (discriminant.equals("$subclass.name") && data == null) {
-      // Use the ${subclass.subsystem.name} factory to get the data.
-      data = ${subclass.subsystem.fullyQualifiedName}.${subclass.subsystem.className}Factory.get${subclass.name}Data(key, rs);
-    }
+      // Check for $subclass.name, set return only if not already set
+      if (discriminant.equals("$subclass.name") && data == null) {
+        // Use the ${subclass.subsystem.name} factory to get the data.
+        data = ${subclass.subsystem.fullyQualifiedName}.${subclass.subsystem.className}Factory.get${subclass.name}Data(key, rs);
+      }
 #end
 #end
     return data;
 #else
     return ${dto.subsystem.fullyQualifiedName}.${dto.subsystem.className}Factory.get${dto.name}Data(key, rs);
 #end
+    } catch (com.poesys.db.InvalidParametersException | SQLException e) {
+      logger.error("Error getting data", e);
+      throw new com.poesys.db.DbErrorException("Error getting data", e);
+    }
   }
 #end
 
+  @Override
   public String getSql(IPrimaryKey key) {
     return SQL + key.getSqlWhereExpression("${dto.objectQueryAlias}");
   }
