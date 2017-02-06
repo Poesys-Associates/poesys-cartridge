@@ -504,7 +504,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 
     @Override
     protected com.poesys.db.dao.query.IKeyQuerySql<${setter.className}> getSql() {
-      return new ${dto.packageName}.sql.Query${setter.dto.name}();
+      return new ${setter.dto.packageName}.sql.Query${setter.dto.name}();
     }
 
     @Override

@@ -180,7 +180,7 @@ public abstract class Abstract${sub.className}Factory {
     list.add(com.poesys.db.pk.PrimaryKeyFactory.createIdentityKey(prefix + "${property.sqlColumnName}", ${property.uniqueName}Value, "${class.packageName}.${class.name}"));
 #end
 #elseif ($key.keyType == "CompositeKey")
-    IPrimaryKey ${key.name}Key = get${key.parentName}PrimaryKey(rs, prefix + "${key.prefix}");
+    IPrimaryKey ${key.name}Key = get${key.dto.compositeParent.name}PrimaryKey(rs, prefix + "${key.prefix}");
     java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> ${key.name}Keys =
         new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
 #foreach ($property in $key.keyProperties)
@@ -357,7 +357,7 @@ public abstract class Abstract${sub.className}Factory {
     }
 #end
 #elseif ($keyType == "CompositeKey")
-    IPrimaryKey ${key.prefix}ParentKey = get${key.parentName}PrimaryKey(#set ($psep = "")#foreach ($property in $key.parentKeyProperties)${psep}${property.uniqueName}#set($psep = ", ")#end);
+    IPrimaryKey ${key.prefix}ParentKey = get${key.dto.compositeParent.name}PrimaryKey(#set ($psep = "")#foreach ($property in $key.parentKeyProperties)${psep}${property.uniqueName}#set($psep = ", ")#end);
     if (${key.prefix}ParentKey != null) {
       java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> ${key.prefix}${key.dto.name}List =
         new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
