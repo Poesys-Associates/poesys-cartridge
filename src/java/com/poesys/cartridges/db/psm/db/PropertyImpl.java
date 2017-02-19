@@ -985,8 +985,8 @@ public class PropertyImpl extends com.poesys.cartridges.db.psm.db.Property {
             + "())";
     } else if (typeName.equalsIgnoreCase("java.lang.Double")) {
       call =
-        "stmt.setDouble(" + INDEX_VAR + ", " + OBJECT_VAR + "."
-            + getGetterName() + "())";
+        "if (object." + getGetterName() + "() != null) \n" + "        stmt.setDouble(" + INDEX_VAR + ", " + OBJECT_VAR + "."
+            + getGetterName() + "());\n" + "      else\n              stmt.setNull(index, java.sql.Types.DOUBLE)";
     } else if (typeName.equalsIgnoreCase("java.lang.Float")) {
       // SQL "float" is really double
       call =
