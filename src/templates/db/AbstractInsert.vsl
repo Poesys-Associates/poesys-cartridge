@@ -50,4 +50,21 @@ public class AbstractInsert${dto.name} implements IInsertSql<${dto.packageName}.
 #end
 #end
   }
+  
+  @Override
+  public String getParamString(${dto.packageName}.I${dto.name} object) {
+    StringBuilder builder = new StringBuilder();
+
+    // Get the primary key string
+    builder.append(object.getPrimaryKey().getStringKey());
+#foreach ($property in $dto.insertProperties)
+#if (!$property.key)
+    // Get the non-key attributes.
+    builder.append(", ");
+    builder.append("${property.uniqueName}: ");
+    builder.append(object.${property.getterName}());
+#end
+#end
+    return builder.toString();
+  }
 }
