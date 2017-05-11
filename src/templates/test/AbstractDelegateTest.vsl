@@ -128,7 +128,7 @@ public abstract class Abstract${dto.name}DelegateTest {
    *                     return a key for in the implementation
    * @return ${property.typename} key value
    */
-  abstract protected List<Bs${property.dto.name}> create${stringUtils.capitalize($property.uniqueName)}${property.dto.name}(int objectNumber);
+  abstract protected List<${property.dto.subsystem.businessPackageName}.Bs${property.dto.name}> create${stringUtils.capitalize($property.uniqueName)}${property.dto.name}(int objectNumber);
 #end
 #end
 ## Only add create helper if the class is writable (insertable).

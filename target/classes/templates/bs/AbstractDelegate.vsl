@@ -455,9 +455,9 @@ public abstract class Abstract${dto.name}Delegate
 #end
 #end
 #if ($super.keyType == "IdentityKey" || $super.inheritedKeyType == "IdentityKey")
-      ${super.nameAsProperty}Inserter.insert(c, ${super.nameAsProperty}Dtos);
+      ${super.nameAsProperty}Inserter.insert(${super.nameAsProperty}Dtos);
 #else
-      ${super.nameAsProperty}Inserter.insert(c, ${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
+      ${super.nameAsProperty}Inserter.insert(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
 #end
 #end
       // Insert the object of the current class after enabling nested inserts,
@@ -467,24 +467,11 @@ public abstract class Abstract${dto.name}Delegate
         dto.setSuppressNestedInserts(false);
       }
       // Mark the DAO as a leaf DAO.
-      ${dto.nameAsProperty}Inserter.setLeaf(true);
 #if ($dto.keyType == "IdentityKey" || $dto.inheritedKeyType == "IdentityKey")
-      ${dto.nameAsProperty}Inserter.insert(c, ${dto.nameAsProperty}Dtos);
+      ${dto.nameAsProperty}Inserter.insert(${dto.nameAsProperty}Dtos);
 #else
-      ${dto.nameAsProperty}Inserter.insert(c, ${dto.nameAsProperty}Dtos, ${dto.nameAsProperty}Dtos.size() / 2);
+      ${dto.nameAsProperty}Inserter.insert(${dto.nameAsProperty}Dtos, ${dto.nameAsProperty}Dtos.size() / 2);
 #end
-      
-    } catch (com.poesys.db.ConstraintViolationException e) {
-      rollBack(c, e.getMessage(), e);
-    } catch (java.sql.SQLException e) {
-      rollBack(c, e.getMessage(), e);
-    } catch (com.poesys.db.BatchException e) {
-      // Don't roll back the whole transaction; the DBMS rolls back the
-      // individual inserts that failed, but the rest should be committed.
-      String message = com.poesys.db.Message.getMessage(e.getMessage(), null);
-      throw new DelegateException(message, e);
-    } catch (com.poesys.db.dto.DtoStatusException e) {
-      rollBack(c, e.getMessage(), e);
     } finally {
       finalizeStatus(${dto.nameAsProperty}Dtos, com.poesys.db.dto.IDbDto.Status.EXISTING);
     }
@@ -521,7 +508,7 @@ public abstract class Abstract${dto.name}Delegate
       com.poesys.db.dao.delete.IDeleteBatch<${super.packageName}.I${super.name}> deleter = 
         ${super.nameAsProperty}Factory.getDeleteBatch(new ${super.packageName}.sql.Delete${super.name}());
       if (deleter != null) {
-        deleter.delete(c, ${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size()/2);
+        deleter.delete(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size()/2);
       }
 #set ($root=false)
 #end
@@ -530,7 +517,7 @@ public abstract class Abstract${dto.name}Delegate
 #if ($dto.superclasses.size() == 0)
 
       if (deleter != null) {
-        deleter.delete(c, dtos, dtos.size() / 2);
+        deleter.delete(dtos, dtos.size() / 2);
       }
 
 #end
@@ -557,12 +544,12 @@ public abstract class Abstract${dto.name}Delegate
 #end
       // Process any inserts for $super.nameAsProperty.
       if (${super.nameAsProperty}Inserter != null) {
-        ${super.nameAsProperty}Inserter.insert(c, ${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
+        ${super.nameAsProperty}Inserter.insert(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
       }
 
       // Process any updates for $super.nameAsProperty.
       if (${super.nameAsProperty}Updater != null) {
-        ${super.nameAsProperty}Updater.update(c, ${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
+        ${super.nameAsProperty}Updater.update(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
       }
 #end
       
@@ -572,27 +559,13 @@ public abstract class Abstract${dto.name}Delegate
         for (com.poesys.db.dto.IDbDto dto : dtos) {
           dto.setSuppressNestedInserts(false);
         }
-        inserter.setLeaf(true);
-        inserter.insert(c, dtos, dtos.size() / 2);
+        inserter.insert(dtos, dtos.size() / 2);
       }
       
       // Update the object.
       if (updater != null) {
-        updater.setLeaf(true);
-        updater.update(c, dtos, dtos.size() / 2);
+        updater.update(dtos, dtos.size() / 2);
       }
-    } catch (com.poesys.db.ConstraintViolationException e) {
-      rollBack(c, e.getMessage(), e);
-    } catch (java.sql.SQLException e) {
-      rollBack(c, e.getMessage(), e);
-    } catch (com.poesys.db.BatchException e) {
-      // Don't roll back the whole transaction; the DBMS rolls back the
-      // individual operations that failed, but the rest should be committed.
-      String message = com.poesys.db.Message.getMessage(e.getMessage(), null);
-      throw new DelegateException(message, e);
-    } catch (com.poesys.db.dto.DtoStatusException e) {
-      String message = com.poesys.db.Message.getMessage(e.getMessage(), null);
-      rollBack(c, message, e);
     } finally {
       updateChangedToExisting(dtos);
       finalizeStatus(dtos, com.poesys.db.dto.IDbDto.Status.EXISTING);

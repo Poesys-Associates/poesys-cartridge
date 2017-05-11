@@ -229,7 +229,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       // Update the superclass objects from the root down.
 #set ($first = false)
 #end
-      ${super.nameAsProperty}Updater.update(connection, dto);
+      ${super.nameAsProperty}Updater.update(dto);
 #end
       updater.update(dto);
       // Complete the update by setting the DTO to EXISTING status.
@@ -294,7 +294,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #set ($second = true)
 #end
 #end
-      ${super.nameAsProperty}Inserter.insert(connection, dto);
+      ${super.nameAsProperty}Inserter.insert(dto);
 #end
 
       // Suppress inserts in concrete class.
@@ -459,7 +459,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 
     @Override
     protected com.poesys.db.dao.query.IKeyQuerySql<${setter.className}> getSql() {
-      return new ${dto.packageName}.sql.Query${setter.dto.name}();
+      return new ${setter.dto.packageName}.sql.Query${setter.dto.name}();
     }
 
     @Override
@@ -639,7 +639,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 
       // Update the superclass objects from the root down.
 #foreach ($super in $setter.dto.superclasses)
-      ${super.nameAsProperty}Updater.update(connection, ${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
+      ${super.nameAsProperty}Updater.update(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
 #end
 #end
 
@@ -723,9 +723,9 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
 #end
 #end
 #if ($super.keyType == "IdentityKey" || $super.inheritedKeyType == "IdentityKey")
-      ${super.nameAsProperty}Inserter.insert(connection, ${super.nameAsProperty}Dtos);
+      ${super.nameAsProperty}Inserter.insert(${super.nameAsProperty}Dtos);
 #else
-      ${super.nameAsProperty}Inserter.insert(connection, ${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
+      ${super.nameAsProperty}Inserter.insert(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
 #end
 #end
 #end

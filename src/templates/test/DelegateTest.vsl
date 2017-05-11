@@ -88,15 +88,15 @@ public class ${dto.name}DelegateTest extends ${businessPackageName}.Abstract${dt
    *                     return a key for in the implementation
    * @return List of Bs${property.dto.name} objects
    */
-  protected java.util.List<${dto.subsystem.businessPackageName}.Bs${property.dto.name}> create${stringUtils.capitalize($property.uniqueName)}${property.dto.name}(int objectNumber) {
-    java.util.List<${dto.subsystem.businessPackageName}.Bs${property.dto.name}> objects = 
-      new java.util.ArrayList<Bs${property.dto.name}>(objectNumber);
+  protected java.util.List<${property.dto.subsystem.businessPackageName}.Bs${property.dto.name}> create${stringUtils.capitalize($property.uniqueName)}${property.dto.name}(int objectNumber) {
+    java.util.List<${property.dto.subsystem.businessPackageName}.Bs${property.dto.name}> objects = 
+      new java.util.ArrayList<${property.dto.subsystem.businessPackageName}.Bs${property.dto.name}>(objectNumber);
     // TODO Implement object creation for the required nested 
     // ${property.dto.name} object ${property.uniqueName}.
     for (int i = 0; i < objectNumber; i++) {
       // Query a ${property.dto.name} object from the database.
-      ${property.dto.name}Delegate ${property.uniqueName}Delegate = 
-        ${dto.subsystem.businessPackageName}.${dto.subsystem.className}DelegateFactory.get${property.dto.name}Delegate();
+      ${property.dto.subsystem.businessPackageName}.${property.dto.name}Delegate ${property.uniqueName}Delegate = 
+        ${property.dto.subsystem.businessPackageName}.${property.dto.subsystem.className}DelegateFactory.get${property.dto.name}Delegate();
       com.poesys.db.pk.IPrimaryKey key = ${dto.packageName}.${dto.subsystem.className}Factory.get${property.dto.name}PrimaryKey(#set($sep="")#foreach ($key in $property.dto.keyProperties)${sep}${key.uniqueName}#set($sep=", ")#end);
       objects.add(${property.uniqueName}Delegate.getObject((/* keytype here */com.poesys.db.pk.NaturalPrimaryKey)key));
     }
