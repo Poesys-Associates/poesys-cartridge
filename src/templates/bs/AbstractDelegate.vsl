@@ -459,14 +459,17 @@ public abstract class Abstract${dto.name}Delegate
 #else
       ${super.nameAsProperty}Inserter.insert(${super.nameAsProperty}Dtos, ${super.nameAsProperty}Dtos.size() / 2);
 #end
+      // Undo EXISTING status to allow insert of subclass row.
+      for (com.poesys.db.dto.IDbDto dto : ${super.nameAsProperty}Dtos) {
+        dto.undoStatus();
+      }
 #end
-      // Insert the object of the current class after enabling nested inserts,
+      // Insert the object of the leaf class after enabling nested inserts,
       // which will allow connecting up linked objects to any of the inserted
       // classes.
       for (com.poesys.db.dto.IDbDto dto : ${dto.nameAsProperty}Dtos) {
         dto.setSuppressNestedInserts(false);
       }
-      // Mark the DAO as a leaf DAO.
 #if ($dto.keyType == "IdentityKey" || $dto.inheritedKeyType == "IdentityKey")
       ${dto.nameAsProperty}Inserter.insert(${dto.nameAsProperty}Dtos);
 #else
@@ -496,7 +499,7 @@ public abstract class Abstract${dto.name}Delegate
 #foreach ($super in $dto.superclasses)
       // ${super.name}
       final com.poesys.db.dao.IDaoFactory<${super.packageName}.I${super.name}> ${super.nameAsProperty}Factory =
-        manager.getFactory("${super.packageName}.${super.name}", "${super.packageName}.${super.name}", ${super.expiration});
+        manager.getFactory("${super.packageName}.${super.name}", "${super.packageName}", ${super.expiration});
       com.poesys.db.dao.insert.IInsertBatch<${super.packageName}.I${super.name}> ${super.nameAsProperty}Inserter =
         ${super.nameAsProperty}Factory.getInsertBatch(new ${super.packageName}.sql.Insert${super.name}());
       com.poesys.db.dao.update.IUpdateBatch<${super.packageName}.I${super.name}> ${super.nameAsProperty}Updater =
