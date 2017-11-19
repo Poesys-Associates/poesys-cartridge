@@ -263,7 +263,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       com.poesys.db.dao.insert.IInsert<${setter.className}> inserter =
         factory.getInsert(new ${setter.dto.packageName}.sql.Insert${realName}(), createKey());
 
-#foreach ($super in $dto.superclasses)
+#foreach ($super in $setter.dto.superclasses)
       // ${super.name}
       final com.poesys.db.dao.IDaoFactory<${super.packageName}.I${super.name}> ${super.nameAsProperty}Factory =
         manager.getFactory("${super.packageName}.${super.name}", "${super.subsystem.fullyQualifiedName}", ${super.expiration});
@@ -283,7 +283,7 @@ public abstract class Abstract${dto.name} extends#if (${dto.superclass}) ${dto.s
       dto.setSuppressNestedPreInserts(false);
 #set ($first = true)
 #set ($second = false)
-#foreach ($super in $dto.superclasses)
+#foreach ($super in $setter.dto.superclasses)
 #if ($second)
       // Set pre-insert suppression on to suppress inserts in anything but root.
       dto.setSuppressNestedPreInserts(true);
